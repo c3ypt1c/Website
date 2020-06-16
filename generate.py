@@ -51,8 +51,20 @@ class Document:
 
 
 class DocumentCluster:
+    wrapper = "<section>{}</section>"
+
     def __init__(self, path):
         self.documents = []
-        
+
+        for document in glob.glob(path + "/*"):
+            self.documents.append(Document(document))
+
+    def collectHTML(self):
+        HTML = ""
+        for document in self.documents:
+            HTML += document.gen()
+            HTML = self.wrapper.format(HTML)
+
+        return HTML
 
 
