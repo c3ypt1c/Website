@@ -7,15 +7,19 @@ class Document:
     titleTags = "<h1>{}</h1>"
     paragraphTags = "<p>{}</p>"
 
-    def __init__(self, path, phraseContent=False):
+    def __init__(self, path, phraseContent=False, genContent=False):
         self.path = path
         self.doc = None
         self.elements = {}
-        self.HTML = None
+        self.dHTML = None
         self.phrased = False
+        self.generated = False
 
         if phraseContent:
             self.ph()
+
+        if genContent:
+            self.gen()
 
     def ph(self):
         self.doc = opendocument.load(self.path)
@@ -25,7 +29,7 @@ class Document:
         else:
             self.elements["title"] = "No Title"
 
-        paragraphs = self.doc.getElementByType(text.P)
+        paragraphs = self.doc.getElementsByType(text.P)
 
         if len(paragraphs) > 0:
             self.elements["paragraphs"] = paragraphs
@@ -37,17 +41,21 @@ class Document:
     def gen(self):
         if not self.phrased:
             self.ph()
+        elif self.generated:
+            return self.dHTML
 
         TitleHTML = self.titleTags.format(self.elements["title"])
         ParagraphHTML = ""
         for Paragraph in self.elements["paragraphs"]:
             ParagraphHTML += self.paragraphTags.format(Paragraph)
 
-        HTML = TitleHTML + ParagraphHTML
-        HTML = self.wrapperTags.format(HTML)
+        dHTML = TitleHTML + ParagraphHTML
+        dHTML = self.wrapperTags.format(dHTML)
+        self.dHTML = dHTML
 
-        self.HTML = HTML
-        return HTML
+        self.generated = True
+
+        return dHTML
 
 
 class DocumentCluster:
@@ -60,11 +68,29 @@ class DocumentCluster:
             self.documents.append(Document(document))
 
     def collectHTML(self):
-        HTML = ""
+        dHTML = ""
         for document in self.documents:
-            HTML += document.gen()
-            HTML = self.wrapper.format(HTML)
+            dHTML += document.gen()
 
-        return HTML
+        dHTML = self.wrapper.format(dHTML)
+
+        return dHTML
 
 
+documentClusters = []
+
+for File in glob.glob("Sections/*"):
+    documentClusters.append(DocumentCluster(File))
+
+# Add all the sections
+
+HTML = "<html><head><title>Lukasz Baldyga</title></head><body>"
+
+for documentCluster in documentClusters:
+    HTML += documentCluster.collectHTML()
+
+HTML += "</body></html>"
+
+f = open("Public/bare.html", "w")
+f.write(HTML)
+f.close()
