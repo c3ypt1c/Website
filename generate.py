@@ -4,6 +4,7 @@ from glob import glob
 from odf import opendocument, text
 
 # TODO: Logging.
+# TODO: Increment build number
 
 
 class Document:
