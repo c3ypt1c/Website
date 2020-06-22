@@ -1,14 +1,12 @@
-import glob
 import os
 import config
+from glob import glob
 from odf import opendocument, text
+
+# TODO: Logging.
 
 
 class Document:
-    wrapperTags = "<article>{}</article>"
-    titleTags = "<h2>{}</h2>"
-    paragraphTags = "<p>{}</p>"
-
     def __init__(self, path, phraseContent=False, genContent=False):
         self.path = path
         self.doc = None
@@ -46,13 +44,13 @@ class Document:
         elif self.generated:
             return self.dHTML
 
-        TitleHTML = self.titleTags.format(self.elements["title"])
+        TitleHTML = config.Documents.titleTags.format(self.elements["title"])
         ParagraphHTML = ""
         for Paragraph in self.elements["paragraphs"]:
-            ParagraphHTML += self.paragraphTags.format(Paragraph)
+            ParagraphHTML += config.Documents.paragraphTags.format(Paragraph)
 
         dHTML = TitleHTML + ParagraphHTML
-        dHTML = self.wrapperTags.format(dHTML)
+        dHTML = config.Documents.wrapperTags.format(dHTML)
         self.dHTML = dHTML
 
         self.generated = True
@@ -64,13 +62,12 @@ class DocumentCluster:
     wrapper = "<section><header><h1>{}<h1></header>{}</section>"
 
     def __init__(self, path):
-        self.documents = [] #get all the documents
+        self.documents = []  # get all the documents
 
-        for document in glob.glob(path + "/*"):
+        for document in glob(path + "/*"):
             self.documents.append(Document(document))
 
         self.sectionName = os.path.basename(path)
-
 
     def collectHTML(self):
         dHTML = ""
@@ -84,21 +81,30 @@ class DocumentCluster:
 
 documentClusters = []
 
-for File in glob.glob("Sections/*"):
+for File in glob(config.Generation.searchPath):
     documentClusters.append(DocumentCluster(File))
 
 # Add all the sections
 
-HTML = config.Page.header
+bareHTML = config.Page.bareHeader
+beefHTML = config.Page.fullHeader
 
-for documentCluster in documentClusters:
-    HTML += documentCluster.collectHTML()
+for documentCluster in documentClusters:  # TODO: Room for optimisation (duplicate code)
+    bareHTML += documentCluster.collectHTML()
+    beefHTML += documentCluster.collectHTML()
 
-else:
-    HTML += "<h1>No documents found</h1>"
+if len(documentClusters) == 0:
+    bareHTML += "<h1>No documents found</h1>"
+    beefHTML += "<h1>No documents found</h1>"
 
-HTML += config.Page.footer
+bareHTML += config.Page.footer
+beefHTML += config.Page.footer
+
 
 f = open("Public/bare.html", "w")
-f.write(HTML)
+f.write(bareHTML)
+f.close()
+
+f = open("Public/beef.html", "w")
+f.write(beefHTML)
 f.close()
