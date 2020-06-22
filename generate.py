@@ -1,10 +1,12 @@
 import glob
+import os
+import config
 from odf import opendocument, text
 
 
 class Document:
     wrapperTags = "<article>{}</article>"
-    titleTags = "<h1>{}</h1>"
+    titleTags = "<h2>{}</h2>"
     paragraphTags = "<p>{}</p>"
 
     def __init__(self, path, phraseContent=False, genContent=False):
@@ -59,20 +61,23 @@ class Document:
 
 
 class DocumentCluster:
-    wrapper = "<section>{}</section>"
+    wrapper = "<section><header><h1>{}<h1></header>{}</section>"
 
     def __init__(self, path):
-        self.documents = []
+        self.documents = [] #get all the documents
 
         for document in glob.glob(path + "/*"):
             self.documents.append(Document(document))
+
+        self.sectionName = os.path.basename(path)
+
 
     def collectHTML(self):
         dHTML = ""
         for document in self.documents:
             dHTML += document.gen()
 
-        dHTML = self.wrapper.format(dHTML)
+        dHTML = self.wrapper.format(self.sectionName, dHTML)
 
         return dHTML
 
@@ -84,12 +89,15 @@ for File in glob.glob("Sections/*"):
 
 # Add all the sections
 
-HTML = "<html><head><title>Lukasz Baldyga</title></head><body>"
+HTML = config.Page.header
 
 for documentCluster in documentClusters:
     HTML += documentCluster.collectHTML()
 
-HTML += "</body></html>"
+else:
+    HTML += "<h1>No documents found</h1>"
+
+HTML += config.Page.footer
 
 f = open("Public/bare.html", "w")
 f.write(HTML)
