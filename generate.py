@@ -90,16 +90,16 @@ for File in glob(config.Generation.searchPath):
 bareHTML = config.Page.bareHeader
 beefHTML = config.Page.fullHeader
 
-for documentCluster in documentClusters:  # TODO: Room for optimisation (duplicate code)
-    bareHTML += documentCluster.collectHTML()
-    beefHTML += documentCluster.collectHTML()
+midHTML = ""
+
+for documentCluster in documentClusters: 
+    midHTML += documentCluster.collectHTML()
 
 if len(documentClusters) == 0:
-    bareHTML += "<h1>No documents found</h1>"
-    beefHTML += "<h1>No documents found</h1>"
+    midHTML += "<h1>No documents found</h1>"
 
-bareHTML += config.Page.footer
-beefHTML += config.Page.footer
+bareHTML += midHTML + config.Page.footer
+beefHTML += midHTML + config.Page.footer
 
 
 f = open("Public/bare.html", "w")
