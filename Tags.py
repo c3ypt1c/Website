@@ -36,8 +36,8 @@ class Style(HTMLConstructor):
             # Since the errors at the start stop the code from generating, it shouldn't be a big deal for now
 
             if self.integrity and self.external:
-                self.generatedContent = """<link rel="stylesheet" href="{}" integrity={} />""".format(self.url,
-                                                                                                      self.integrity)
+                self.generatedContent = """<link rel="stylesheet" href="{}" integrity={} crossorigin="anonymous" />"""
+                self.generatedContent = self.generatedContent.format(self.url, self.integrity)
             else:
                 self.generatedContent = """<link rel="stylesheet" href="{}"/>""".format(self.url)
             self.generated = True
