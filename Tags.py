@@ -15,16 +15,17 @@ class HTMLConstructor:
 
 
 class Style(HTMLConstructor):
-    def __init__(self, url, embed=False, integrity=False):
-        super(url)
+    def __init__(self, url, embed=False, integrity=False, external=False):
+        super(Style, self).__init__(url)
         self.embed = embed
         self.integrity = integrity
+        self.external = external
 
         if embed:
             NotImplementedError("Embedding CSS directly is no implemented yet")  # TODO
 
-        if integrity:
-            NotImplementedError("Integrity checking is not possible yet")  # TODO
+        if integrity and not external:
+            NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
     def gen(self):
         if self.generated:
@@ -33,19 +34,24 @@ class Style(HTMLConstructor):
             # TODO: Integrity check
             # TODO: Embedding into inline
             # Since the errors at the start stop the code from generating, it shouldn't be a big deal for now
-            self.generatedContent = """<link rel="stylesheet" href="{}"/>""".format(self.url)
+
+            if self.integrity and self.external:
+                self.generatedContent = """<link rel="stylesheet" href="{}" integrity={} />""".format(self.url,
+                                                                                                      self.integrity)
+            else:
+                self.generatedContent = """<link rel="stylesheet" href="{}"/>""".format(self.url)
             self.generated = True
             return self.generatedContent
 
 
 class Script(HTMLConstructor):
     def __init__(self, url):
-        super(url)
+        super(Script, self).__init__(url) #
 
     def gen(self):
         if self.generated:
             return self.generatedContent
         else:
-            self.generatedContent = """<script src="{}">""".format(self.url)
+            self.generatedContent = """<script src="{}"></script>""".format(self.url)
             self.generated = True
             return self.generatedContent

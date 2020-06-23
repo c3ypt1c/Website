@@ -1,9 +1,13 @@
 class Page:
     import Tags  # Tags only needed for this specific section
-    header = """<!DOCTYPE HTML><html><head><title>Lukasz Baldyga</title></head>{}<body>"""
+    header = """<!DOCTYPE HTML><html><head><title>Lukasz Baldyga</title>{}</head><body>"""
     bareHeader = header.format("")
 
-    HeadTags = []
+    HeadTags = [Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js"),
+                Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"),
+                Tags.Style("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"),
+                Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
+                ]
 
     # Generating HTML for beef html template
     HeaderHTML = ""
