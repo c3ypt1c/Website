@@ -3,54 +3,39 @@ import config
 from glob import glob
 from odf import opendocument, text
 
+
 # TODO: Logging.
 # TODO: Increment build number
 
 
 class Document:
-    def __init__(self, path, phraseContent=False, genContent=False):
+    def __init__(self, path, genContent=False):
         self.path = path
         self.doc = None
         self.elements = {}
         self.dHTML = None
-        self.phrased = False
         self.generated = False
-
-        if phraseContent:
-            self.ph()
 
         if genContent:
             self.gen()
 
-    def ph(self):
-        self.doc = opendocument.load(self.path)
-        title = self.doc.getElementsByType(text.Title)
-        if len(title) > 0:
-            self.elements["title"] = title[0]
-        else:
-            self.elements["title"] = "No Title"
-
-        paragraphs = self.doc.getElementsByType(text.P)
-
-        if len(paragraphs) > 0:
-            self.elements["paragraphs"] = paragraphs
-        else:
-            self.elements["paragraphs"] = [""]
-
-        self.phrased = True
-
     def gen(self):
-        if not self.phrased:
-            self.ph()
-        elif self.generated:
+        if self.generated:
             return self.dHTML
 
-        TitleHTML = config.Documents.titleTags.format(self.elements["title"])
-        ParagraphHTML = ""
-        for Paragraph in self.elements["paragraphs"]:
-            ParagraphHTML += config.Documents.paragraphTags.format(Paragraph)
+        dHTML = ""
 
-        dHTML = TitleHTML + ParagraphHTML
+        self.doc = opendocument.load(self.path)
+
+        for element in self.doc.getElementsByType(text.P):
+            styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
+            if styleType == "Title":
+                dHTML += config.Documents.titleTags.format(element)
+            elif styleType == "P3":
+                dHTML += config.Documents.subTitleTags.format(element)
+            else:
+                dHTML += config.Documents.paragraphTags.format(element)
+
         dHTML = config.Documents.wrapperTags.format(dHTML)
         self.dHTML = dHTML
 
@@ -92,7 +77,7 @@ beefHTML = config.Page.fullHeader
 
 midHTML = ""
 
-for documentCluster in documentClusters: 
+for documentCluster in documentClusters:
     midHTML += documentCluster.collectHTML()
 
 if len(documentClusters) == 0:
@@ -100,7 +85,6 @@ if len(documentClusters) == 0:
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += midHTML + config.Page.footer
-
 
 f = open("Public/bare.html", "w")
 f.write(bareHTML)
