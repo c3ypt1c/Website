@@ -46,7 +46,8 @@ class Style(HTMLConstructor):
 
 class Script(HTMLConstructor):
     def __init__(self, url):
-        super(Script, self).__init__(url) #
+        super(Script, self).__init__(url)
+        # TODO: Script also needs integrity
 
     def gen(self):
         if self.generated:
