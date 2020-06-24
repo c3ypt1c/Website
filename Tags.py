@@ -1,58 +1,87 @@
-from abc import abstractmethod
+import string
+
+# from abc import abstractmethod
+# Temporarily commented as it might be needed for other classes
+
+HTMLElementDB = {"style": {"selfClosing": False},
+                 "link": {"selfClosing": True},
+                 "script": {"selfClosing": False}
+                 }
 
 
-# TODO: Rewrite with proper HTML element class
-class HTMLConstructor:
-    def __init__(self, url):
-        self.url = url
+class HTMLElement:  # TODO: Optimise eHTML variable
+    selfClosingString = string.Template("""<${elementName}$attributes/>""")
+    notSelfClosingString = string.Template("""<${elementName}$attributes></$elementName>""")  # TODO: InnerHTML
+    attributeString = string.Template(""" $attribute=\"$value\"""")
+
+    def __init__(self, elementName, selfClosing=None, attributes=None):
+        """
+        :type elementName: str
+        :type selfClosing: bool
+        :type attributes: dict
+        """
 
         self.generated = False
         self.generatedContent = None
+        self.eHTML = None
 
-    @abstractmethod
+        if selfClosing is None:
+            if elementName in HTMLElementDB:
+                selfClosing = HTMLElementDB[elementName]["selfClosing"]  # Add other attributes that are needed here
+            else:
+                # TODO: Log here that it is assuming that it's not self closing
+                selfClosing = False
+
+        self.elementName = elementName
+
+        if attributes is None:
+            attributes = {}
+
+        self.attributes = attributes
+        self.selfClosing = selfClosing
+
     def gen(self):
-        pass
+        """
+        :rtype: str
+        """
+        if self.generated:
+            return self.generatedContent
+
+        if self.selfClosing:
+            self.eHTML = self.selfClosingString
+        else:
+            self.eHTML = self.notSelfClosingString
+
+        attributesPile = ""
+
+        for attributeName in self.attributes:
+            attributesPile += self.attributeString.substitute(attribute=attributeName,
+                                                              value=self.attributes[attributeName])
+
+        self.generatedContent = self.eHTML.substitute(elementName=self.elementName, attributes=attributesPile)
+        self.generated = True
+        return self.generatedContent
 
 
-class Style(HTMLConstructor):
+class Style(HTMLElement):
     def __init__(self, url, embed=False, integrity=False, external=False):
-        super(Style, self).__init__(url)
-        self.embed = embed
-        self.integrity = integrity
-        self.external = external
 
         if embed:
-            NotImplementedError("Embedding CSS directly is no implemented yet")  # TODO
+            NotImplementedError("Embedding CSS directly is not implemented yet")  # TODO
 
-        if integrity and not external:
+        elif integrity and not external:
             NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
-    def gen(self):
-        if self.generated:
-            return self.generatedContent
         else:
-            # TODO: Integrity check
-            # TODO: Embedding into inline
-            # Since the errors at the start stop the code from generating, it shouldn't be a big deal for now
-
-            if self.integrity and self.external:
-                self.generatedContent = """<link rel="stylesheet" href="{}" integrity={} crossorigin="anonymous" />"""
-                self.generatedContent = self.generatedContent.format(self.url, self.integrity)
-            else:
-                self.generatedContent = """<link rel="stylesheet" href="{}"/>""".format(self.url)
-            self.generated = True
-            return self.generatedContent
+            attributeList = {"src": url}
+            if integrity:
+                attributeList["integrity"] = integrity
+                attributeList["crossorgin"] = "anonymous"
+            super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
 
 
-class Script(HTMLConstructor):
+class Script(HTMLElement):
     def __init__(self, url):
-        super(Script, self).__init__(url)
+        super(Script, self).__init__("script", selfClosing=False, attributes={"src": url})
         # TODO: Script also needs integrity
-
-    def gen(self):
-        if self.generated:
-            return self.generatedContent
-        else:
-            self.generatedContent = """<script src="{}"></script>""".format(self.url)
-            self.generated = True
-            return self.generatedContent
+        # TODO: Script also needs embedded scripts
