@@ -45,7 +45,7 @@ class Document:
 
 
 class DocumentCluster:
-    wrapper = "<section><header><h1>{}<h1></header>{}</section>"
+    wrapper = "<section><header><h1>{}</h1></header>{}</section>"
 
     def __init__(self, path):
         self.documents = []  # get all the documents

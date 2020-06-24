@@ -12,7 +12,7 @@ HTMLElementDB = {"style": {"selfClosing": False},
 class HTMLElement:  # TODO: Optimise eHTML variable
     selfClosingString = string.Template("""<${elementName}$attributes/>""")
     notSelfClosingString = string.Template("""<${elementName}$attributes></$elementName>""")  # TODO: InnerHTML
-    attributeString = string.Template(""" $attribute=\"$value\"""")
+    attributeString = string.Template(""" $attribute='$value'""")
 
     def __init__(self, elementName, selfClosing=None, attributes=None):
         """
@@ -73,10 +73,13 @@ class Style(HTMLElement):
             NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
         else:
-            attributeList = {"src": url}
+            attributeList = {"href": url,
+                             "rel": "stylesheet"
+                             }
+
             if integrity:
                 attributeList["integrity"] = integrity
-                attributeList["crossorgin"] = "anonymous"
+                attributeList["crossorigin"] = "anonymous"
             super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
 
 
