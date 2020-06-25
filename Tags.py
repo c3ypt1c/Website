@@ -83,12 +83,20 @@ class HTMLElement:
 
 class Style(HTMLElement):
     def __init__(self, url, embed=False, integrity=False, external=False):
+        self.generated = False
+        self.generatedContent = None
+
+        if integrity and not external:
+            NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
         if embed:
-            NotImplementedError("Embedding CSS directly is not implemented yet")  # TODO
+            # TODO: Log here that you cannot have integrity and embedding. No point
+            integrity = False
 
-        elif integrity and not external:
-            NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
+            InnerHTML = getHTMLContent(url)
+
+            super(Style, self).__init__("style", selfClosing=False, innerHTML=InnerHTML)
+
 
         else:
             attributeList = {"href": url,
@@ -98,6 +106,7 @@ class Style(HTMLElement):
             if integrity:
                 attributeList["integrity"] = integrity
                 attributeList["crossorigin"] = "anonymous"
+
             super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
 
 

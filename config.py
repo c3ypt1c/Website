@@ -12,8 +12,11 @@ class Page:
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
     ]
 
-    EmbedHeadTags = [
-        Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True)
+    EmbedHeadTags = [  # TODO: Embedded tags should be the same as Head tags but have the embed attribute
+        Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
+        Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
+        Tags.Style("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", embed=True),
+        Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True)
     ]
 
     # Generating HTML for beef html template
