@@ -1,17 +1,9 @@
 import os
 import config
+# import logging  #  TODO
+import HelperFunctions
 from glob import glob
 from odf import opendocument, text
-
-
-def Save(file, content):
-    f = open(file, "w")
-    f.write(content)
-    f.close()
-
-
-# TODO: Logging.
-# TODO: Increment build number
 
 
 class Document:
@@ -94,6 +86,6 @@ bareHTML += midHTML + config.Page.footer
 beefHTML += midHTML + config.Page.footer
 downHTML += midHTML + config.Page.footer
 
-Save("Public/bare.html", bareHTML)
-Save("Public/beef.html", beefHTML)
-Save("Public/down.html", downHTML)
+HelperFunctions.Save("Public/bare.html", bareHTML)
+HelperFunctions.Save("Public/beef.html", beefHTML)
+HelperFunctions.Save("Public/down.html", downHTML)

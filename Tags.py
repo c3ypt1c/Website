@@ -128,3 +128,8 @@ class Script(HTMLElement):
             super(Script, self).__init__("script", selfClosing=False, attributes={"src": url})
             # TODO: Script also needs integrity
             # TODO: Script also needs embedded scripts
+
+
+class Paragraph(HTMLElement):
+    def __init__(self, text):
+        super(Paragraph, self).__init__("p", selfClosing=False, innerHTML=text)

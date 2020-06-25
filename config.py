@@ -1,3 +1,18 @@
+import HelperFunctions
+
+
+class Documents:
+    wrapperTags = "<article>{}</article>"
+    titleTags = "<h2>{}</h2>"
+    subTitleTags = "<h5 class='subtitle'>{}</h5>"
+    paragraphTags = "<p>{}</p>"
+
+
+class Generation:
+    searchPath = "Sections/*"
+    buildNumberLocation = "build number"
+
+
 class Page:
     import Tags  # Tags only needed for this specific section
     header = """<!DOCTYPE HTML><html><head><title>Lukasz Baldyga</title>{}</head><body>"""
@@ -31,15 +46,12 @@ class Page:
     fullHeader = header.format(HeaderHTML)
     embedHeader = header.format(EmbedHTML)
 
-    footer = """</body></html>"""
+    #  Increment build number
+    buildNumber = 1 + int(HelperFunctions.Read(Generation.buildNumberLocation))
+    HelperFunctions.Save(Generation.buildNumberLocation, str(buildNumber))
 
+    buildNumberParagraph = Tags.Paragraph("Build Number: " + str(buildNumber))
+    FooterTag = Tags.HTMLElement("footer", selfClosing=False, innerHTML=buildNumberParagraph.gen())
 
-class Documents:
-    wrapperTags = "<article>{}</article>"
-    titleTags = "<h2>{}</h2>"
-    subTitleTags = "<h5 class='subtitle'>{}</h5>"
-    paragraphTags = "<p>{}</p>"
+    footer = """{}</body></html>""".format(FooterTag.gen())
 
-
-class Generation:
-    searchPath = "Sections/*"
