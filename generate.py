@@ -4,6 +4,12 @@ from glob import glob
 from odf import opendocument, text
 
 
+def Save(file, content):
+    f = open(file, "w")
+    f.write(content)
+    f.close()
+
+
 # TODO: Logging.
 # TODO: Increment build number
 
@@ -74,6 +80,7 @@ for File in glob(config.Generation.searchPath):
 
 bareHTML = config.Page.bareHeader
 beefHTML = config.Page.fullHeader
+downHTML = config.Page.embedHeader
 
 midHTML = ""
 
@@ -85,11 +92,8 @@ if len(documentClusters) == 0:
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += midHTML + config.Page.footer
+downHTML += midHTML + config.Page.footer
 
-f = open("Public/bare.html", "w")
-f.write(bareHTML)
-f.close()
-
-f = open("Public/beef.html", "w")
-f.write(beefHTML)
-f.close()
+Save("Public/bare.html", bareHTML)
+Save("Public/beef.html", beefHTML)
+Save("Public/down.html", downHTML)
