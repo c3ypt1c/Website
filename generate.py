@@ -101,7 +101,7 @@ for documentCluster in documentClusters:
     midHTML += documentCluster.collectHTML()
 
 if len(documentClusters) == 0:
-    midHTML += "<h1>No documents found</h1>"
+    midHTML += str(config.Page.Tags.Hx(1, text="No documents found"))
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += midHTML + config.Page.footer
