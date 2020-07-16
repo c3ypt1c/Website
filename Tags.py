@@ -1,6 +1,11 @@
 import string
 from operator import attrgetter
 from urllib import request
+import hashlib
+
+
+def generateID(text):
+    return hashlib.sha512(str(text).encode()).hexdigest()
 
 
 def getHTMLContent(url):
