@@ -182,3 +182,9 @@ class Hx(HTMLElement):
             ValueError("tag h" + str(level) + " doesn't exist.")
 
         super(Hx, self).__init__("h" + str(level), selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Body(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Body, self).__init__("body", selfClosing=False, innerHTML=text, attributes=attributes)
+
