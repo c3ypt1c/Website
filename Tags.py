@@ -150,3 +150,25 @@ class Paragraph(HTMLElement):
 class Div(HTMLElement):
     def __init__(self, text="", attributes=None):
         super(Div, self).__init__("div", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Section(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Section, self).__init__("section", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Header(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Header, self).__init__("header", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Hx(HTMLElement):
+    def __init__(self, level, text="", attributes=None):
+        """
+        :type level: int
+        level can be 1,2,3,4,5,6
+        """
+        if level > 6 or level < 1:
+            ValueError("tag h" + str(level) + " doesn't exist.")
+
+        super(Hx, self).__init__("h" + str(level), selfClosing=False, innerHTML=text, attributes=attributes)

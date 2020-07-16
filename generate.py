@@ -4,6 +4,7 @@ import config
 import HelperFunctions
 from glob import glob
 from odf import opendocument, text
+import hashlib
 
 
 class Document:
@@ -43,7 +44,6 @@ class Document:
 
 
 class DocumentCluster:
-    wrapper = "<section><header><h1>{}</h1></header>{}</section>"
 
     def __init__(self, path):
         self.documents = []  # get all the documents
@@ -52,15 +52,19 @@ class DocumentCluster:
             self.documents.append(Document(document))
 
         self.sectionName = os.path.basename(path)
+        self.id = hashlib.sha512(str(self.sectionName + path).encode())
 
     def collectHTML(self):
         dHTML = ""
         for document in self.documents:
             dHTML += document.gen()
 
-        dHTML = self.wrapper.format(self.sectionName, dHTML)
+        h1 = config.Page.Tags.Hx(1, text=self.sectionName)
+        header = config.Page.Tags.Header(text=h1)
 
-        return dHTML
+        section = config.Page.Tags.Section(text=header+dHTML)
+
+        return str(section)
 
 
 # TODO: fix, currently Linux only
