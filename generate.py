@@ -5,6 +5,7 @@ import HelperFunctions
 from glob import glob
 from odf import opendocument, text
 
+
 class Document:
     documentCounter = 0
 
@@ -72,7 +73,7 @@ class DocumentCluster:
         h1 = config.Page.Tags.Hx(1, text=self.sectionName)
         header = config.Page.Tags.Header(text=h1)
 
-        section = config.Page.Tags.Section(text=header+dHTML, attributes={"id": self.id})
+        section = config.Page.Tags.Section(text=header + dHTML, attributes={"id": self.id})
 
         return str(section)
 
