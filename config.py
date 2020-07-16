@@ -30,7 +30,7 @@ class Page:
     ]
 
     EmbedHeadTags = [  # TODO: Embedded tags should be the same as Head tags but have the embed attribute
-                       # TODO: (this is no longer true)
+        # TODO: (this is no longer true)
         Tags.Style("http://localhost/PublicResources/style.css"),
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
@@ -50,16 +50,19 @@ class Page:
     fullHeader = header.format(HeaderHTML)
     embedHeader = header.format(EmbedHTML)
 
-    #  Increment build number
+    # Increment build number
     buildNumber = 1 + int(HelperFunctions.Read(Generation.buildNumberLocation))
     HelperFunctions.Save(Generation.buildNumberLocation, str(buildNumber))
 
+    # Add build number to footer
     buildNumberParagraph = Tags.Paragraph("Build Number: " + str(buildNumber))
+    FooterDiv = Tags.Div(text=buildNumberParagraph,
+                         attributes={"class": "container"})
+
     FooterTag = Tags.HTMLElement("footer",
                                  selfClosing=False,
-                                 innerHTML=buildNumberParagraph,
+                                 innerHTML=FooterDiv,
                                  attributes={"class": "footer"}
                                  )
 
     footer = """{}</body></html>""".format(FooterTag)
-

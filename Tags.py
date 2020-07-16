@@ -148,5 +148,5 @@ class Paragraph(HTMLElement):
 
 
 class Div(HTMLElement):
-    def __init__(self, text, attributes):
+    def __init__(self, text="", attributes=None):
         super(Div, self).__init__("div", selfClosing=False, innerHTML=text, attributes=attributes)
