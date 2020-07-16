@@ -5,14 +5,17 @@ import HelperFunctions
 from glob import glob
 from odf import opendocument, text
 
-
 class Document:
+    documentCounter = 0
+
     def __init__(self, path, genContent=False):
         self.path = path
         self.doc = None
         self.elements = {}
         self.dHTML = None
         self.generated = False
+
+        self.title = ""
 
         if genContent:
             self.gen()
@@ -28,13 +31,21 @@ class Document:
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             if styleType == "Title":
-                internalArticleText += str(config.Page.Tags.Hx(2, text=element))
+                self.title = str(config.Page.Tags.Hx(2, text=element))
+                internalArticleText += self.title
             elif styleType == "P3":
                 internalArticleText += str(config.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
             else:
                 internalArticleText += str(config.Page.Tags.Paragraph(text=element))
 
-        article = config.Page.Tags.Article(text=internalArticleText)
+        Document.documentCounter += 1
+        article = config.Page.Tags.Article(text=internalArticleText,
+                                           attributes={"id": config.Page.Tags.generateID(self.title +
+                                                                                         internalArticleText +
+                                                                                         str(Document.documentCounter)
+                                                                                         )
+                                                       }
+                                           )
 
         self.dHTML = str(article)
 
