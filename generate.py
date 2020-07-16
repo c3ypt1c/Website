@@ -21,25 +21,26 @@ class Document:
         if self.generated:
             return self.dHTML
 
-        dHTML = ""
+        internalArticleText = ""
 
         self.doc = opendocument.load(self.path)
 
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             if styleType == "Title":
-                dHTML += config.Documents.titleTags.format(element)
+                internalArticleText += str(config.Page.Tags.Hx(2, text=element))
             elif styleType == "P3":
-                dHTML += config.Documents.subTitleTags.format(element)
+                internalArticleText += str(config.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
             else:
-                dHTML += config.Documents.paragraphTags.format(element)
+                internalArticleText += str(config.Page.Tags.Paragraph(text=element))
 
-        dHTML = config.Documents.wrapperTags.format(dHTML)
-        self.dHTML = dHTML
+        article = config.Page.Tags.Article(text=internalArticleText)
+
+        self.dHTML = str(article)
 
         self.generated = True
 
-        return dHTML
+        return self.dHTML
 
 
 class DocumentCluster:

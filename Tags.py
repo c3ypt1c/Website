@@ -157,6 +157,11 @@ class Div(HTMLElement):
         super(Div, self).__init__("div", selfClosing=False, innerHTML=text, attributes=attributes)
 
 
+class Article(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Article, self).__init__("article", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
 class Section(HTMLElement):
     def __init__(self, text="", attributes=None):
         super(Section, self).__init__("section", selfClosing=False, innerHTML=text, attributes=attributes)

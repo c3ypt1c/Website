@@ -1,13 +1,6 @@
 import HelperFunctions
 
 
-class Documents:
-    wrapperTags = "<article>{}</article>"
-    titleTags = "<h2>{}</h2>"
-    subTitleTags = "<h5 class='subtitle'>{}</h5>"
-    paragraphTags = "<p>{}</p>"
-
-
 class Generation:
     searchPath = "Sections/*"
     buildNumberLocation = "build number"
