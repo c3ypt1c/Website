@@ -63,6 +63,12 @@ class DocumentCluster:
         return dHTML
 
 
+# TODO: fix, currently Linux only
+os.system("rm -r Public")
+os.system("mkdir Public")
+os.system("cp -r PublicResources Public/Resources")
+
+# Generate all the file
 documentClusters = []
 
 for File in glob(config.Generation.searchPath):

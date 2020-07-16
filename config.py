@@ -25,11 +25,13 @@ class Page:
                    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk",
                    external=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
-        Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")  # Advert Script
+        Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),  # Advert Script
+        Tags.Style("Resources/style.css")
     ]
 
     EmbedHeadTags = [  # TODO: Embedded tags should be the same as Head tags but have the embed attribute
                        # TODO: (this is no longer true)
+        Tags.Style("http://localhost/PublicResources/style.css"),
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", embed=True),
@@ -39,11 +41,11 @@ class Page:
     # Generating HTML for beef html template
     HeaderHTML = ""
     for tag in HeadTags:
-        HeaderHTML += tag.gen()
+        HeaderHTML += str(tag)
 
     EmbedHTML = ""
     for tag in EmbedHeadTags:
-        EmbedHTML += tag.gen()
+        EmbedHTML += str(tag)
 
     fullHeader = header.format(HeaderHTML)
     embedHeader = header.format(EmbedHTML)
@@ -53,7 +55,11 @@ class Page:
     HelperFunctions.Save(Generation.buildNumberLocation, str(buildNumber))
 
     buildNumberParagraph = Tags.Paragraph("Build Number: " + str(buildNumber))
-    FooterTag = Tags.HTMLElement("footer", selfClosing=False, innerHTML=buildNumberParagraph.gen())
+    FooterTag = Tags.HTMLElement("footer",
+                                 selfClosing=False,
+                                 innerHTML=buildNumberParagraph,
+                                 attributes={"class": "footer"}
+                                 )
 
-    footer = """{}</body></html>""".format(FooterTag.gen())
+    footer = """{}</body></html>""".format(FooterTag)
 

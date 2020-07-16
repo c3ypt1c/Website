@@ -1,4 +1,5 @@
 import string
+from operator import attrgetter
 from urllib import request
 
 
@@ -30,7 +31,12 @@ class HTMLElement:
         :type selfClosing: bool
         :type attributes: dict
         :type innerHTML: str
+        :type innerHTML: object
+
+        if passing an object into innerHTML, it should be able to be represented as a string.
         """
+
+        innerHTML = str(innerHTML)
 
         self.generated = False
         self.generatedContent = None
@@ -55,7 +61,7 @@ class HTMLElement:
         self.selfClosing = selfClosing
         self.innerHTML = innerHTML
 
-    def gen(self):
+    def __str__(self):
         """
         :rtype: str
         """
@@ -79,6 +85,12 @@ class HTMLElement:
 
         self.generated = True
         return self.generatedContent
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __add__(self, other):
+        return str(self) + str(other)
 
 
 class Style(HTMLElement):
@@ -133,3 +145,8 @@ class Script(HTMLElement):
 class Paragraph(HTMLElement):
     def __init__(self, text):
         super(Paragraph, self).__init__("p", selfClosing=False, innerHTML=text)
+
+
+class Div(HTMLElement):
+    def __init__(self, text, attributes):
+        super(Div, self).__init__("div", selfClosing=False, innerHTML=text, attributes=attributes)
