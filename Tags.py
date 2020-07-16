@@ -1,5 +1,4 @@
 import string
-from operator import attrgetter
 from urllib import request
 import hashlib
 
@@ -114,7 +113,6 @@ class Style(HTMLElement):
 
             super(Style, self).__init__("style", selfClosing=False, innerHTML=InnerHTML)
 
-
         else:
             attributeList = {"href": url,
                              "rel": "stylesheet"
@@ -187,4 +185,3 @@ class Hx(HTMLElement):
 class Body(HTMLElement):
     def __init__(self, text="", attributes=None):
         super(Body, self).__init__("body", selfClosing=False, innerHTML=text, attributes=attributes)
-
