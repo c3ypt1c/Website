@@ -1,3 +1,7 @@
+from os import system
+from StaticStrings import Logging
+
+
 def Save(file, content):
     f = open(file, "w")
     f.write(content)

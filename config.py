@@ -1,9 +1,10 @@
 import HelperFunctions
+from os import system
+from StaticStrings import *
 
-
-class Generation:
-    searchPath = "Sections/*"
-    buildNumberLocation = "build number"
+# remove old log TODO: fix unsafe parameter TODO: fix Linux only
+system("rm -r " + Logging.loggerFolder)
+system("mkdir " + Logging.loggerFolder)
 
 
 class Page:
@@ -20,21 +21,16 @@ class Page:
     HeadTags = [
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js"),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"),
-        # Tags.Style("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css",
-        #            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk",
-        #            external=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css"),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
         Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),  # Advert Script
         Tags.Style("Resources/Styles/style.css")
     ]
 
-    EmbedHeadTags = [  # TODO: Embedded tags should be the same as Head tags but have the embed attribute
-        # TODO: (this is no longer true)
+    EmbedHeadTags = [
         Tags.Style("http://localhost/PublicResources/style.css"),
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
-        # Tags.Style("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", embed=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True)
     ]

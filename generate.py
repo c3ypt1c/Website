@@ -1,9 +1,10 @@
 import os
 import config
-# import logging  #  TODO
-import HelperFunctions
+from config import HelperFunctions
 from glob import glob
 from odf import opendocument, text
+
+HelperFunctions.logging.debug("Loaded imports")
 
 
 class Document:
