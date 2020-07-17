@@ -53,6 +53,8 @@ class Page:
     buildNumber = 1 + int(HelperFunctions.Read(Generation.buildNumberLocation))
     HelperFunctions.Save(Generation.buildNumberLocation, str(buildNumber))
 
+    localLogger.debug("Current build number: {}".format(buildNumber))
+
     # Add build number to footer
     buildNumberParagraph = Tags.Paragraph("Build Number: " + str(buildNumber))
     FooterDiv = Tags.Div(text=buildNumberParagraph,
