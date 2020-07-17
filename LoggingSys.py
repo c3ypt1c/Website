@@ -19,6 +19,6 @@ def getLogger(name):
     ch.setFormatter(formatter)
     logger.addHandler(ch)
 
-    logger.debug("Basic Logger Config set")
+    logger.debug("Logger created")
 
     return logger

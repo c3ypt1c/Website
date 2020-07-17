@@ -1,10 +1,14 @@
 import os
 import config
+from time import time
 from config import HelperFunctions
 from glob import glob
 from odf import opendocument, text
+import LoggingSys
 
-HelperFunctions.logging.debug("Loaded imports")
+start = time()
+localLogger = LoggingSys.getLogger("generate.py")
+localLogger.debug("Loaded imports")
 
 
 class Document:
@@ -49,6 +53,8 @@ class Document:
                                                        }
                                            )
 
+        localLogger.debug("Generated document number {}".format(Document.documentCounter))
+
         self.dHTML = str(article)
 
         self.generated = True
@@ -79,15 +85,20 @@ class DocumentCluster:
         return str(section)
 
 
+localLogger.debug("Defined Document Data structures")
+
 # TODO: fix, currently Linux only
 os.system("rm -r Public")
 os.system("mkdir Public")
 os.system("cp -r PublicResources Public/Resources")
 
+localLogger.debug("Refreshed Public directory")
+
 # Generate all the file
 documentClusters = []
 
 for File in glob(config.Generation.searchPath):
+    localLogger.info("Found file at: {}".format(File))
     documentClusters.append(DocumentCluster(File))
 
 # Add all the sections
@@ -104,12 +115,19 @@ for documentCluster in documentClusters:
 if len(documentClusters) == 0:
     midHTML += str(config.Page.Tags.Hx(1, text="No documents found"))
 
+localLogger.info("There are {} document clusters".format(len(documentClusters)))
+
 midMain = config.Page.Tags.Main(midHTML, attributes={"class": "container"})
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += str(midMain) + config.Page.footer
 downHTML += str(midMain) + config.Page.footer
 
+localLogger.info("Finishing building, writing...")
+
 HelperFunctions.Save("Public/bare.html", bareHTML)
 HelperFunctions.Save("Public/beef.html", beefHTML)
 HelperFunctions.Save("Public/down.html", downHTML)
+
+localLogger.info("Data written")
+localLogger.info("Took: {}s".format(round(time() - start, 2)))
