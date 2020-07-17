@@ -1,6 +1,9 @@
 import string
 from urllib import request
 import hashlib
+from HelperFunctions import getLogger
+
+localLogger = getLogger("Tags.py")
 
 
 def generateID(text):
@@ -14,9 +17,6 @@ def getHTMLContent(url):
 
     return InnerHTML
 
-
-# from abc import abstractmethod
-# Temporarily commented as it might be needed for other classes
 
 HTMLElementDB = {"style": {"selfClosing": False},
                  "link": {"selfClosing": True},
@@ -50,7 +50,7 @@ class HTMLElement:
                 selfClosing = HTMLElementDB[elementName]["selfClosing"]
                 # Add other attributes that are needed here
             else:
-                # TODO: Log here that it is assuming that it's not self closing
+                localLogger.warning("Assuming that tag {} is not self closing".format(elementName))
                 selfClosing = False
 
         if selfClosing and innerHTML:
@@ -106,7 +106,7 @@ class Style(HTMLElement):
             NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
         if embed:
-            # TODO: Log here that you cannot have integrity and embedding. No point
+            localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
             integrity = False
 
             InnerHTML = getHTMLContent(url)
@@ -129,7 +129,7 @@ class Script(HTMLElement):
     def __init__(self, url, embed=False, integrity=False, external=False):
         if embed:
             if integrity:
-                # TODO: Log here that you cannot have integrity and embedding. No point
+                localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
                 integrity = False
 
             InnerHTML = getHTMLContent(url)
@@ -190,3 +190,6 @@ class Body(HTMLElement):
 class Main(HTMLElement):
     def __init__(self, text="", attributes=None):
         super(Main, self).__init__("main", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+localLogger.debug("Phrased Tags.py fully")
