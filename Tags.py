@@ -192,4 +192,36 @@ class Main(HTMLElement):
         super(Main, self).__init__("main", selfClosing=False, innerHTML=text, attributes=attributes)
 
 
+class Nav(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Nav, self).__init__("nav", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Image(HTMLElement):
+    def __init__(self, url, attributes=None):  # Support embedding
+        if attributes is None:
+            attributes = {}
+
+        attributes["src"] = url
+
+        super(Image, self).__init__("img", selfClosing=True, attributes=attributes)
+
+
+class Figure(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Figure, self).__init__("figure", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class FigCaption(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(FigCaption, self).__init__("figcaption", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class FigureImageCombo(Figure):
+    def __init__(self, imageURL, imageSubtext, imageAttributes=None, imageSubtextAttributes=None, attributes=None):
+        image = Image(imageURL, attributes=imageAttributes)
+        figureText = FigCaption(text=imageSubtext, attributes=imageSubtextAttributes)
+        super(FigureImageCombo, self).__init__(text=image+figureText, attributes=attributes)
+
+
 localLogger.debug("Phrased Tags.py fully")

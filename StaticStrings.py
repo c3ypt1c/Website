@@ -6,3 +6,6 @@ class Logging:
 class Generation:
     searchPath = "Sections/*"
     buildNumberLocation = "build number"
+
+    publicFolderImageLocation = "Resources/PageImages/Folder2.png"
+    publicFolderOpenImageLocation = "Resources/PageImages/Folder2open.png"

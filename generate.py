@@ -116,11 +116,34 @@ if len(documentClusters) == 0:
 
 localLogger.info("There are {} document clusters".format(len(documentClusters)))
 
-midMain = config.Page.Tags.Main(midHTML, attributes={"class": "container"})
+localLogger.info("Generating TOC...")
+
+tocHTML = ""
+
+i = 0
+for documentCluster in documentClusters:
+    i += 1
+
+    # TODO: Add links
+
+    tocHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
+                                                     "Cluster {}".format(i),
+                                                     attributes={"class": "figure"},
+                                                     imageAttributes={"class": "figure-img img-fluid"},
+                                                     imageSubtextAttributes={"class": "figure-caption"}
+                                                     )
+                   )
+
+
+nav = config.Page.Tags.Nav(text=tocHTML)
+midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
+
+minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "mainWrapper"})
+
 
 bareHTML += midHTML + config.Page.footer
-beefHTML += str(midMain) + config.Page.footer
-downHTML += str(midMain) + config.Page.footer
+beefHTML += str(minFlexWrapper) + config.Page.footer
+downHTML += str(minFlexWrapper) + config.Page.footer
 
 localLogger.info("Finishing building, writing...")
 
