@@ -11,6 +11,12 @@ class Page:
     header = """<!DOCTYPE HTML><html><head><title>Lukasz Baldyga</title>{}</head><body>"""
     bareHeader = header.format("")
 
+    bigTitleInner = Tags.Paragraph(text="Lukasz Baldyga", attributes={"class": "Title Black_background"})
+    bigTitleInner += Tags.Div(attributes={"class": "Hacker"})
+    bigTitle = Tags.Div(text=bigTitleInner, attributes={"class": "TitleWrapper"})
+
+    header += str(bigTitle)
+
     HeadTags = [
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js"),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"),
@@ -19,7 +25,7 @@ class Page:
                    external=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
         Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),  # Advert Script
-        Tags.Style("Resources/style.css")
+        Tags.Style("Resources/Styles/style.css")
     ]
 
     EmbedHeadTags = [  # TODO: Embedded tags should be the same as Head tags but have the embed attribute

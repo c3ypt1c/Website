@@ -1,10 +1,28 @@
+.TitleWrapper {
+	font-size:3em;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.Title {
+	display: inline-block;
+	z-index: 1000;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow-x: hidden;
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .Hacker {
 	position: absolute;
 	top:10px;
 	left:0;
 	display: inline-block;
 	overflow: hidden;
-	background-image: url(../Images/green_line.png);
+	background-image: url(../StyleImages/green_line.png);
 	background-repeat: repeat-x;
 	transition: filter 1s linear;
 	height: 1em;

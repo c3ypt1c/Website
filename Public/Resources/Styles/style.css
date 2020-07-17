@@ -1,0 +1,51 @@
+.TitleWrapper {
+	font-size:3em;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.Title {
+	display: inline-block;
+	z-index: 1000;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow-x: hidden;
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.Hacker {
+	position: absolute;
+	top:10px;
+	left:0;
+	display: inline-block;
+	overflow: hidden;
+	background-image: url(../StyleImages/green_line.png);
+	background-repeat: repeat-x;
+	transition: filter 1s linear;
+	height: 1em;
+	margin: 0;
+	padding: 0;
+	z-index: -1;
+	animation-duration: 1s;
+	animation-name: TopBarAnimation;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+.Hacker:hover {
+	filter: hue-rotate(270deg);
+}
+
+@keyframes TopBarAnimation {
+	0% {
+		left:0;
+		width: calc(100% + 0px);
+	}
+	100% {
+		left:-128px;
+		width: calc(100% + 128px);
+	}
+}

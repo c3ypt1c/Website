@@ -146,8 +146,8 @@ class Script(HTMLElement):
 
 
 class Paragraph(HTMLElement):
-    def __init__(self, text):
-        super(Paragraph, self).__init__("p", selfClosing=False, innerHTML=text)
+    def __init__(self, text, attributes=None):
+        super(Paragraph, self).__init__("p", selfClosing=False, innerHTML=text, attributes=attributes)
 
 
 class Div(HTMLElement):
