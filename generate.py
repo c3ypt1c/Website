@@ -103,9 +103,11 @@ for documentCluster in documentClusters:
 if len(documentClusters) == 0:
     midHTML += str(config.Page.Tags.Hx(1, text="No documents found"))
 
+midMain = config.Page.Tags.Main(midHTML, attributes={"class": "container"})
+
 bareHTML += midHTML + config.Page.footer
-beefHTML += midHTML + config.Page.footer
-downHTML += midHTML + config.Page.footer
+beefHTML += str(midMain) + config.Page.footer
+downHTML += str(midMain) + config.Page.footer
 
 HelperFunctions.Save("Public/bare.html", bareHTML)
 HelperFunctions.Save("Public/beef.html", beefHTML)

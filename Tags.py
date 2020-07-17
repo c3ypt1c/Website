@@ -185,3 +185,8 @@ class Hx(HTMLElement):
 class Body(HTMLElement):
     def __init__(self, text="", attributes=None):
         super(Body, self).__init__("body", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Main(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Main, self).__init__("main", selfClosing=False, innerHTML=text, attributes=attributes)
