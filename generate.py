@@ -135,10 +135,10 @@ for documentCluster in documentClusters:
                    )
 
 
-nav = config.Page.Tags.Nav(text=tocHTML)
+nav = config.Page.Tags.Nav(text=tocHTML, attributes={"class": "container"})
 midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
 
-minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "mainWrapper"})
+minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "FlexWrapper"})
 
 
 bareHTML += midHTML + config.Page.footer

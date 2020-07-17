@@ -54,3 +54,28 @@ body {
 		width: calc(100% + 128px);
 	}
 }
+
+
+.figure {
+	width:10em;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.FlexWrapper {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.FlexWrapper nav {
+	margin: unset;
+	margin-left: auto;
+	width: auto;
+}
+
+.FlexWrapper main.container {
+	margin:unset;
+	margin-right: auto;
+	min-width: 700px
+}
