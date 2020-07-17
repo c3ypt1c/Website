@@ -6,6 +6,8 @@ from StaticStrings import *
 system("rm -r " + Logging.loggerFolder)
 system("mkdir " + Logging.loggerFolder)
 
+localLogger = HelperFunctions.getLogger("config.py")
+
 
 class Page:
     import Tags  # Tags only needed for this specific section

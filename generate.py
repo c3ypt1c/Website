@@ -1,13 +1,12 @@
 import os
 import config
 from time import time
-from config import HelperFunctions
+import HelperFunctions
 from glob import glob
 from odf import opendocument, text
-import LoggingSys
 
 start = time()
-localLogger = LoggingSys.getLogger("generate.py")
+localLogger = HelperFunctions.getLogger("generate.py")
 localLogger.debug("Loaded imports")
 
 
