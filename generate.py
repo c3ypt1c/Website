@@ -36,8 +36,8 @@ class Document:
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             if styleType == "Title":
-                self.title = str(config.Page.Tags.Hx(2, text=element))
-                internalArticleText += self.title
+                self.title = str(element)
+                internalArticleText += str(config.Page.Tags.Hx(2, text=element))
             elif styleType == "P3":
                 internalArticleText += str(config.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
             else:
@@ -123,7 +123,6 @@ tocHTML = ""
 i = 0
 for documentCluster in documentClusters:
     i += 1
-
     # TODO: Add links
 
     tocHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
@@ -134,12 +133,23 @@ for documentCluster in documentClusters:
                                                      )
                    )
 
+    tocItemsHTML = ""
+
+    for documentDC in documentCluster.documents:
+        tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFileImageLocation,
+                                                              documentDC.title,
+                                                              attributes={"class": "figure"},
+                                                              imageAttributes={"class": "figure-img img-fluid"},
+                                                              imageSubtextAttributes={"class": "figure-caption"}
+                                                              )
+                            )
+
+    tocHTML += str(config.Page.Tags.Div(text=tocItemsHTML))
 
 nav = config.Page.Tags.Nav(text=tocHTML, attributes={"class": "container"})
 midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
 
 minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "FlexWrapper"})
-
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += str(minFlexWrapper) + config.Page.footer
