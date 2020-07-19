@@ -79,3 +79,26 @@ body {
 	margin-right: auto;
 	min-width: 700px
 }
+
+.FlexWrapper nav > div {
+	display: flex;
+	flex-direction: row;
+}
+
+.FlexWrapper nav > div > div {
+	display: flex;
+	flex-direction: column;
+}
+
+.FolderAndFiles img {
+	transition: 0.3s cubic-bezier(.05,.99,.46,.47) all;
+}
+
+.FolderAndFiles img:hover {
+	filter: hue-rotate(-90deg) saturate(1);
+	transform: rotate(-10deg);
+}
+
+.FolderAndFiles .Folder img:hover {
+	transform: rotate(-5deg);
+}

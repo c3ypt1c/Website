@@ -125,26 +125,28 @@ for documentCluster in documentClusters:
     i += 1
     # TODO: Add links
 
-    tocHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
-                                                     "Cluster {}".format(i),
-                                                     attributes={"class": "figure"},
-                                                     imageAttributes={"class": "figure-img img-fluid"},
-                                                     imageSubtextAttributes={"class": "figure-caption"}
-                                                     )
-                   )
+    innerHTML = str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
+                                                      "Cluster {}".format(i),
+                                                      attributes={"class": "figure Folder"},
+                                                      imageAttributes={"class": "figure-img img-fluid"},
+                                                      imageSubtextAttributes={"class": "figure-caption"}
+                                                      )
+                    )
 
     tocItemsHTML = ""
 
     for documentDC in documentCluster.documents:
         tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFileImageLocation,
                                                               documentDC.title,
-                                                              attributes={"class": "figure"},
+                                                              attributes={"class": "figure File"},
                                                               imageAttributes={"class": "figure-img img-fluid"},
                                                               imageSubtextAttributes={"class": "figure-caption"}
                                                               )
                             )
 
-    tocHTML += str(config.Page.Tags.Div(text=tocItemsHTML))
+    innerHTML += str(config.Page.Tags.Div(text=tocItemsHTML))
+
+    tocHTML += str(config.Page.Tags.Div(text=innerHTML, attributes={"class": "FolderAndFiles"}))
 
 nav = config.Page.Tags.Nav(text=tocHTML, attributes={"class": "container"})
 midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
