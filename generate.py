@@ -104,6 +104,7 @@ except FileNotFoundError:
 localLogger.info("Rebuilding folders")
 os.mkdir(config.Generation.buildLocation)
 
+# TODO: Fix for Windows
 os.system("cp -r PublicResources {}".format(config.Generation.buildLocation + "Resources"))
 
 localLogger.debug("Refreshed Public directory at {}".format(config.Generation.buildLocation))
