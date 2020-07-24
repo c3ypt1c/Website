@@ -150,6 +150,14 @@ for documentCluster in documentClusters:
 
     tocItemsHTML = ""
 
+    tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicBackImageLocation,
+                                                          "Go back",
+                                                          attributes={"class": "figure File"},
+                                                          imageAttributes={"class": "figure-img img-fluid"},
+                                                          imageSubtextAttributes={"class": "figure-caption"}
+                                                          )
+                        )
+
     for documentDC in documentCluster.documents:
         tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFileImageLocation,
                                                               documentDC.title,
