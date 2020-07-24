@@ -4,11 +4,17 @@ import config
 from time import time
 import HelperFunctions
 from glob import glob
-from odf import opendocument, text
 
-start = time()
 localLogger = HelperFunctions.getLogger("generate.py")
 localLogger.debug("Loaded imports")
+
+try:
+    from odf import opendocument, text
+except ModuleNotFoundError:
+    localLogger.error("odf module not found. Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
+    ModuleNotFoundError()
+
+start = time()
 
 
 class Document:
