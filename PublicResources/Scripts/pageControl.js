@@ -13,12 +13,18 @@ function HideAllFiles() {
 }
 
 function OpenFolder(id) {
-    HideAllFolders();
-    //id.classList.remove("Closed");
-    let items = id.parentNode.getElementsByTagName("figure");
+    if(id.classList.contains("Closed")) {
+        console.log("Damn, you're fast.")
+    }
+    else {
+        HideAllFolders();
+        let items = id.parentNode.getElementsByTagName("figure");
 
-    for(let item = 0; item < items.length; item++) {
-        items[item].classList.remove("Closed");
+        for (let item = 0; item < items.length; item++) {
+            items[item].classList.remove("Closed");
+        }
+
+        id.classList.add("Closed");
     }
 }
 
