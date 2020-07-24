@@ -33,15 +33,17 @@ class Page:
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css"),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
         Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),  # Advert Script
-        Tags.Style("Resources/Styles/style.css")
+        Tags.Style("Resources/Styles/style.css"),
+        Tags.Script("Resources/Scripts/pageControl.js")
     ]
 
     EmbedHeadTags = [
-        Tags.Style("http://localhost/PublicResources/style.css"),
+        Tags.Style("http://localhost/Resources/style.css"),
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", embed=True),
-        Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True)
+        Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True),
+        Tags.Script("http://localhost/Resources/Scripts/pageControl.js")
     ]
 
     # Generating HTML for beef html template
