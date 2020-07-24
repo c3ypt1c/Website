@@ -1,4 +1,5 @@
 import os
+import shutil
 import config
 from time import time
 import HelperFunctions
@@ -86,12 +87,20 @@ class DocumentCluster:
 
 localLogger.debug("Defined Document Data structures")
 
-# TODO: fix, currently Linux only
-os.system("rm -r Public")
-os.system("mkdir Public")
-os.system("cp -r PublicResources Public/Resources")
+# Removing paths
+try:
+    localLogger.info("Removing old folder: " + config.Generation.buildLocation)
+    shutil.rmtree(config.Generation.buildLocation)
+    localLogger.info("Removed successfully")
+except FileNotFoundError:
+    localLogger.warning("Folder not found. Ignore this if this is the first time building.")
 
-localLogger.debug("Refreshed Public directory")
+localLogger.info("Rebuilding folders")
+os.mkdir(config.Generation.buildLocation)
+
+os.system("cp -r PublicResources {}".format(config.Generation.buildLocation + "Resources"))
+
+localLogger.debug("Refreshed Public directory at {}".format(config.Generation.buildLocation))
 
 # Generate all the file
 documentClusters = []
@@ -159,9 +168,9 @@ downHTML += str(minFlexWrapper) + config.Page.footer
 
 localLogger.info("Finishing building, writing...")
 
-HelperFunctions.Save("Public/bare.html", bareHTML)
-HelperFunctions.Save("Public/beef.html", beefHTML)
-HelperFunctions.Save("Public/down.html", downHTML)
+HelperFunctions.Save(config.Generation.buildLocation + "bare.html", bareHTML)
+HelperFunctions.Save(config.Generation.buildLocation + "beef.html", beefHTML)
+HelperFunctions.Save(config.Generation.buildLocation + "down.html", downHTML)
 
-localLogger.info("Data written")
+localLogger.info("Data written to '{}' folder".format(config.Generation.buildLocation))
 localLogger.info("Took: {}s".format(round(time() - start, 2)))

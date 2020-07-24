@@ -10,3 +10,5 @@ class Generation:
     publicFolderImageLocation = "Resources/PageImages/Folder2.png"
     publicFolderOpenImageLocation = "Resources/PageImages/Folder2open.png"
     publicFileImageLocation = "Resources/PageImages/File2.png"
+
+    buildLocation = "/srv/http/WebsitePublic/"
