@@ -11,7 +11,14 @@ localLogger = HelperFunctions.getLogger("config.py")
 
 class Page:
     import Tags  # Tags only needed for this specific section
-    header = """<!DOCTYPE HTML><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lukasz Baldyga</title>{}</head><body>"""
+    header = """<!DOCTYPE HTML><html>{}<body>"""
+    baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
+    baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
+
+    baseHead = Tags.Head(text=str(baseHeadElementsMeta) + str(baseHeadElementsTitle) + "{}")
+
+    header = header.format(baseHead)
+
     bareHeader = header.format("")
 
     bigTitleInner = Tags.Paragraph(text="Lukasz Baldyga", attributes={"class": "Title"})

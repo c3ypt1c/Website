@@ -224,4 +224,19 @@ class FigureImageCombo(Figure):
         super(FigureImageCombo, self).__init__(text=image+figureText, attributes=attributes)
 
 
+class Title(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Title, self).__init__("title", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
+class Meta(HTMLElement):
+    def __init__(self, attributes=None):
+        super(Meta, self).__init__("meta", selfClosing=True, attributes=attributes)
+
+
+class Head(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Head, self).__init__("head", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
 localLogger.debug("Phrased Tags.py fully")
