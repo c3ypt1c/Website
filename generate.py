@@ -145,7 +145,7 @@ for documentCluster in documentClusters:
                                                       "Cluster {}".format(i),
                                                       attributes={"class": "figure Folder"},
                                                       imageAttributes={"class": "figure-img img-fluid"},
-                                                      imageSubtextAttributes={"class": "figure-caption"}
+                                                      imageSubtextAttributes={"class": "figure-caption text-center"}
                                                       )
                     )
 
@@ -155,7 +155,7 @@ for documentCluster in documentClusters:
                                                           "Go back",
                                                           attributes={"class": "figure File"},
                                                           imageAttributes={"class": "figure-img img-fluid"},
-                                                          imageSubtextAttributes={"class": "figure-caption"}
+                                                          imageSubtextAttributes={"class": "figure-caption text-center"}
                                                           )
                         )
 
@@ -164,7 +164,8 @@ for documentCluster in documentClusters:
                                                               documentDC.title,
                                                               attributes={"class": "figure File"},
                                                               imageAttributes={"class": "figure-img img-fluid"},
-                                                              imageSubtextAttributes={"class": "figure-caption"}
+                                                              imageSubtextAttributes=
+                                                              {"class": "figure-caption text-center"}
                                                               )
                             )
 
