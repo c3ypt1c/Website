@@ -136,14 +136,21 @@ localLogger.info("Generating TOC...")
 
 tocHTML = ""
 
+folderFilePairs = dict()
+
 i = 0
 for documentCluster in documentClusters:
     i += 1
     # TODO: Add links
 
+    clusterID = "Cluster_" + str(i)
+
     innerHTML = str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
                                                       "Cluster {}".format(i),
-                                                      attributes={"class": "figure Folder"},
+                                                      attributes=
+                                                      {"class": "figure Folder",
+                                                       "id": clusterID,
+                                                       "onclick": "OpenFolder(this)".format(clusterID)},
                                                       imageAttributes={"class": "figure-img img-fluid"},
                                                       imageSubtextAttributes={"class": "figure-caption text-center"}
                                                       )
@@ -153,7 +160,10 @@ for documentCluster in documentClusters:
 
     tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicBackImageLocation,
                                                           "Go back",
-                                                          attributes={"class": "figure File"},
+                                                          attributes=
+                                                          {"class": "figure File Back Closed",
+                                                           "onclick": "ShowAllFolders()"
+                                                           },
                                                           imageAttributes={"class": "figure-img img-fluid"},
                                                           imageSubtextAttributes={"class": "figure-caption text-center"}
                                                           )
@@ -162,7 +172,7 @@ for documentCluster in documentClusters:
     for documentDC in documentCluster.documents:
         tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFileImageLocation,
                                                               documentDC.title,
-                                                              attributes={"class": "figure File"},
+                                                              attributes={"class": "figure File Closed"},
                                                               imageAttributes={"class": "figure-img img-fluid"},
                                                               imageSubtextAttributes=
                                                               {"class": "figure-caption text-center"}

@@ -91,7 +91,8 @@ body {
 }
 
 .FolderAndFiles img {
-	transition: 0.3s cubic-bezier(.05,.99,.46,.47) all;
+	transition: 3s cubic-bezier(.05,.99,.46,.47) all;
+	cursor: pointer; /* Fix for ie */
 }
 
 .FolderAndFiles img:hover {
@@ -101,4 +102,20 @@ body {
 
 .FolderAndFiles .Folder img:hover {
 	transform: rotate(-5deg);
+}
+
+Figure {
+	transition: all 0.5s ease-in;
+}
+
+Figure.Closed {
+	height: 0;
+	width: 0;
+	opacity: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+Figure.Closed figcaption {
+	height: 0;
 }

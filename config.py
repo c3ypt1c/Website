@@ -7,6 +7,7 @@ system("rm -r " + Logging.loggerFolder)
 system("mkdir " + Logging.loggerFolder)
 
 localLogger = HelperFunctions.getLogger("config.py")
+localLogger.debug("Rebuilt logging directory")
 
 
 class Page:
