@@ -65,9 +65,4 @@ function OpenSection(id) {
     }, 350);
 }
 
-function JumpToArticle(id) {
-
-
-}
-
 console.log("pageControl.js loaded");
