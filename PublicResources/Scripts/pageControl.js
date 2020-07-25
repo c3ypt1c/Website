@@ -2,6 +2,7 @@ function HideAllFolders() {
     let folders = document.getElementsByClassName("Folder");
     for (let folder = 0; folder < folders.length; folder++) {
         folders[folder].classList.add("Closed");
+        document.getElementById(folders[folder].getAttribute("data-openid")).classList.add("Closed");
     }
 }
 
@@ -25,6 +26,8 @@ function OpenFolder(id) {
         }
 
         id.classList.add("Closed");
+
+        document.getElementById(id.getAttribute("data-openid")).classList.remove("Closed")
     }
 }
 

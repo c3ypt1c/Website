@@ -86,7 +86,7 @@ class DocumentCluster:
         h1 = config.Page.Tags.Hx(1, text=self.sectionName)
         header = config.Page.Tags.Header(text=h1)
 
-        section = config.Page.Tags.Section(text=header + dHTML, attributes={"id": self.id})
+        section = config.Page.Tags.Section(text=header + dHTML, attributes={"id": self.id, "class": "Closed"})
 
         return str(section)
 
@@ -141,16 +141,13 @@ folderFilePairs = dict()
 i = 0
 for documentCluster in documentClusters:
     i += 1
-    # TODO: Add links
-
-    clusterID = "Cluster_" + str(i)
 
     innerHTML = str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
                                                       "Cluster {}".format(i),
                                                       attributes=
                                                       {"class": "figure Folder",
-                                                       "id": clusterID,
-                                                       "onclick": "OpenFolder(this)".format(clusterID)},
+                                                       "onclick": "OpenFolder(this)",
+                                                       "data-openid": str(documentCluster.id)},
                                                       imageAttributes={"class": "figure-img img-fluid"},
                                                       imageSubtextAttributes={"class": "figure-caption text-center"}
                                                       )
