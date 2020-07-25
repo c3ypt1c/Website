@@ -9,6 +9,13 @@ system("mkdir " + Logging.loggerFolder)
 localLogger = HelperFunctions.getLogger("config.py")
 localLogger.debug("Rebuilt logging directory")
 
+"""
+try:
+    from datauri import DataURI
+except ModuleNotFoundError:
+    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/ ")
+    ModuleNotFoundError("DataURI module not found.")
+"""
 
 class Page:
     import Tags  # Tags only needed for this specific section
