@@ -106,8 +106,13 @@ body {
 	transform: rotate(-5deg);
 }
 
-Figure {
+Figure, section {
 	transition: all 0.5s ease-in;
+}
+
+section {
+	opacity: 1;
+	transition: all 0.5s ease-in, height 1s cubic-bezier(1,.01,1,.02);
 }
 
 Figure.Closed {
@@ -126,4 +131,8 @@ section.Closed {
 	height: 0;
 	opacity: 0;
 	overflow: hidden;
+}
+
+section {
+	opacity: 1;
 }
