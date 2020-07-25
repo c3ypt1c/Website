@@ -194,9 +194,9 @@ downHTML += str(minFlexWrapper) + config.Page.footer
 
 localLogger.info("Finishing building, writing...")
 
-HelperFunctions.Save(config.Generation.buildLocation + "bare.html", bareHTML)
-HelperFunctions.Save(config.Generation.buildLocation + "beef.html", beefHTML)
-HelperFunctions.Save(config.Generation.buildLocation + "down.html", downHTML)
+HelperFunctions.Save(config.Generation.MinimumPage, bareHTML)
+HelperFunctions.Save(config.Generation.MainPage, beefHTML)
+HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(config.Generation.buildLocation))
 localLogger.info("Took: {}s".format(round(time() - start, 2)))
