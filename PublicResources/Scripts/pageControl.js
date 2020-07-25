@@ -52,8 +52,17 @@ function ShowAllFolders() {
     }
 }
 
-function OpenSection(id) {
+function fadeOutColor(id) {
+    id.style = "background: #000";
+}
 
+function OpenSection(id) {
+    let sect = document.getElementById(id.getAttribute("data-openid"));
+    sect.scrollIntoView();
+    sect.style = "background: #4a2300";
+    setTimeout(function () {
+         fadeOutColor(sect)
+    }, 350);
 }
 
 function JumpToArticle(id) {

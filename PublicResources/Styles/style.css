@@ -136,3 +136,7 @@ section.Closed {
 section {
 	opacity: 1;
 }
+
+article {
+	transition: background 0.25s ease;
+}

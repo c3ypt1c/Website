@@ -11,8 +11,14 @@ localLogger.debug("Loaded imports")
 try:
     from odf import opendocument, text
 except ModuleNotFoundError:
-    localLogger.error("odf module not found. Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
-    ModuleNotFoundError()
+    localLogger.error("Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
+    ModuleNotFoundError("odf module not found.")
+
+try:
+    from datauri import DataURI
+except ModuleNotFoundError:
+    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/ ")
+    ModuleNotFoundError("DataURI module not found.")
 
 start = time()
 
@@ -26,6 +32,7 @@ class Document:
         self.elements = {}
         self.dHTML = None
         self.generated = False
+        self.id = None
 
         self.title = ""
 
@@ -51,12 +58,11 @@ class Document:
                 internalArticleText += str(config.Page.Tags.Paragraph(text=element))
 
         Document.documentCounter += 1
+
+        self.id = config.Page.Tags.generateID(self.title + internalArticleText + str(Document.documentCounter))
+
         article = config.Page.Tags.Article(text=internalArticleText,
-                                           attributes={"id": config.Page.Tags.generateID(self.title +
-                                                                                         internalArticleText +
-                                                                                         str(Document.documentCounter)
-                                                                                         )
-                                                       }
+                                           attributes={"id": self.id}
                                            )
 
         localLogger.debug("Generated document number {}".format(Document.documentCounter))
@@ -169,7 +175,10 @@ for documentCluster in documentClusters:
     for documentDC in documentCluster.documents:
         tocItemsHTML += str(config.Page.Tags.FigureImageCombo(config.Generation.publicFileImageLocation,
                                                               documentDC.title,
-                                                              attributes={"class": "figure File Closed"},
+                                                              attributes={"class": "figure File Closed",
+                                                                          "data-openid": str(documentDC.id),
+                                                                          "onclick": "OpenSection(this)"
+                                                                          },
                                                               imageAttributes={"class": "figure-img img-fluid"},
                                                               imageSubtextAttributes=
                                                               {"class": "figure-caption text-center"}
