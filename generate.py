@@ -14,6 +14,13 @@ except ModuleNotFoundError:
     localLogger.error("Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
     ModuleNotFoundError("odf module not found.")
 
+try:
+    from datauri import DataURI
+except ModuleNotFoundError:
+    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/ ")
+    ModuleNotFoundError("DataURI module not found.")
+
+
 start = time()
 
 
@@ -191,6 +198,47 @@ minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "
 bareHTML += midHTML + config.Page.footer
 beefHTML += str(minFlexWrapper) + config.Page.footer
 downHTML += str(minFlexWrapper) + config.Page.footer
+
+localLogger.info("Generating the downloadable version of the website")
+resourceCache = dict()
+pointer = 0
+while pointer != len(downHTML):
+    nextImgTag = downHTML.find("<img ", pointer)
+    if nextImgTag == -1:
+        break
+
+    localLogger.debug("Found img tag at: " + str(nextImgTag))
+
+    srcAttributeStart = downHTML.find("src=\"", nextImgTag)
+
+    localLogger.debug("Found src attribute in img at: " + str(srcAttributeStart))
+
+    srcAttributeStart += len("src=\"")
+    srcAttributeEnd = downHTML.find("\"", srcAttributeStart)
+
+    localLogger.debug("Found src attribute end at: " + str(srcAttributeEnd))
+
+    localURL = downHTML[srcAttributeStart:srcAttributeEnd]
+
+    localLogger.debug("Full string: '{}'".format(localURL))
+
+    if localURL not in resourceCache:
+        localLogger.debug("Downloading and caching resource.")
+
+        resourceCache[localURL] = localURL
+    else:
+        localLogger.debug("Resource already downloaded, skipping...")
+
+    pointer = downHTML.find(">", nextImgTag + 1)
+
+
+localLogger.info("Making resources for download")
+
+for resource in resourceCache:
+    fileLoc = "Public" + resourceCache[resource]
+    makeResource = DataURI.from_file(fileLoc, base64=True)
+    localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
+    downHTML = downHTML.replace(resourceCache[resource], makeResource)
 
 localLogger.info("Finishing building, writing...")
 

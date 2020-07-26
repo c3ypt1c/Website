@@ -22,7 +22,8 @@ def getLogger(name):
 
     # create console handler and set level to debug
     ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
+    # ch.setLevel(logging.INFO)
+    ch.setLevel(logging.DEBUG)
 
     # create logger
     logger = logging.getLogger(name)

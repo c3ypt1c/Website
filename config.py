@@ -9,13 +9,6 @@ system("mkdir " + Logging.loggerFolder)
 localLogger = HelperFunctions.getLogger("config.py")
 localLogger.debug("Rebuilt logging directory")
 
-"""
-try:
-    from datauri import DataURI
-except ModuleNotFoundError:
-    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/ ")
-    ModuleNotFoundError("DataURI module not found.")
-"""
 
 class Page:
     import Tags  # Tags only needed for this specific section
@@ -46,12 +39,12 @@ class Page:
     ]
 
     EmbedHeadTags = [
-        Tags.Style("http://localhost/Resources/style.css"),
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", embed=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", embed=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True),
-        Tags.Script("http://localhost/Resources/Scripts/pageControl.js")
+        Tags.Style(Generation.publicFacingHTMLServerPath + "Resources/Styles/style.css", embed=True),
+        Tags.Script(Generation.publicFacingHTMLServerPath + "Resources/Scripts/pageControl.js", embed=True)
     ]
 
     # Generating HTML for beef html template

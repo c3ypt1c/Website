@@ -12,8 +12,14 @@ def generateID(text):
 
 def getHTMLContent(url):
     InnerHTMLPage = request.urlopen(url)
-    InnerHTML = InnerHTMLPage.read().decode()
+    InnerHTML = InnerHTMLPage.read()
     InnerHTMLPage.close()
+
+    try:
+        InnerHTML = InnerHTML.decode()
+
+    except UnicodeDecodeError:
+        localLogger.warning("Returning bytes, can't decode: '{}' request".format(url))
 
     return InnerHTML
 

@@ -13,6 +13,7 @@ class Generation:
     publicBackImageLocation = "Resources/PageImages/FileUp2shade3.png"
 
     buildLocation = "/srv/http/WebsitePublic/"
+    publicFacingHTMLServerPath = "http://localhost/WebsitePublic/"
 
     MainPage = buildLocation + "chicken.html"
     MinimumPage = buildLocation + "bare.html"
