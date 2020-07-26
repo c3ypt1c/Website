@@ -27,7 +27,7 @@ HTMLElementDB = {"style": {"selfClosing": False},
 class HTMLElement:
     selfClosingString = string.Template("""<${elementName}$attributes/>""")
     notSelfClosingString = string.Template("""<${elementName}$attributes>$innerHTML</$elementName>""")
-    attributeString = string.Template(""" $attribute="$value" """)
+    attributeString = string.Template(""" $attribute="$value\"""")
 
     def __init__(self, elementName, selfClosing=None, attributes=None, innerHTML=""):
         """
