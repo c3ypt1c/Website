@@ -1,5 +1,6 @@
 import HelperFunctions
-from os import system
+from os import system, mkdir
+import shutil
 from StaticStrings import *
 
 # remove old log TODO: fix unsafe parameter TODO: fix Linux only
@@ -8,6 +9,22 @@ system("mkdir " + Logging.loggerFolder)
 
 localLogger = HelperFunctions.getLogger("config.py")
 localLogger.debug("Rebuilt logging directory")
+
+# Removing paths
+try:
+    localLogger.info("Removing old folder: " + Generation.buildLocation)
+    shutil.rmtree(Generation.buildLocation)
+    localLogger.info("Removed successfully")
+except FileNotFoundError:
+    localLogger.warning("Folder not found. Ignore this if this is the first time building.")
+
+localLogger.info("Rebuilding folders")
+mkdir(Generation.buildLocation)
+
+# TODO: Fix for Windows
+system("cp -r PublicResources {}".format(Generation.buildLocation + "Resources"))
+
+localLogger.debug("Refreshed Public directory at {}".format(Generation.buildLocation))
 
 
 class Page:
@@ -43,7 +60,7 @@ class Page:
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", embed=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True),
-        Tags.Style(Generation.publicFacingHTMLServerPath + "Resources/Styles/style.css", embed=True),
+        Tags.Style(Generation.publicFacingHTMLServerPath + "Resources/Styles/styleEmbed.css", embed=True),
         Tags.Script(Generation.publicFacingHTMLServerPath + "Resources/Scripts/pageControl.js", embed=True)
     ]
 

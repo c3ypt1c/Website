@@ -1,5 +1,4 @@
 import os
-import shutil
 import config
 from time import time
 import HelperFunctions
@@ -99,22 +98,6 @@ class DocumentCluster:
 
 
 localLogger.debug("Defined Document Data structures")
-
-# Removing paths
-try:
-    localLogger.info("Removing old folder: " + config.Generation.buildLocation)
-    shutil.rmtree(config.Generation.buildLocation)
-    localLogger.info("Removed successfully")
-except FileNotFoundError:
-    localLogger.warning("Folder not found. Ignore this if this is the first time building.")
-
-localLogger.info("Rebuilding folders")
-os.mkdir(config.Generation.buildLocation)
-
-# TODO: Fix for Windows
-os.system("cp -r PublicResources {}".format(config.Generation.buildLocation + "Resources"))
-
-localLogger.debug("Refreshed Public directory at {}".format(config.Generation.buildLocation))
 
 # Generate all the file
 documentClusters = []
@@ -232,7 +215,7 @@ while pointer != len(downHTML):
     pointer = downHTML.find(">", nextImgTag + 1)
 
 
-localLogger.info("Making resources for download")
+localLogger.info("Making resources for download and packing them into the file")
 
 for resource in resourceCache:
     fileLoc = "Public" + resourceCache[resource]
