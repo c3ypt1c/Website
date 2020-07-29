@@ -32,6 +32,7 @@ class Page:
     header = """<!DOCTYPE HTML><html>{}<body>"""
     baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
     baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
+    baseHeadElementsMeta += Tags.Meta(attributes={"charset": "utf-8"})
 
     baseHead = Tags.Head(text=str(baseHeadElementsMeta) + str(baseHeadElementsTitle) + "{}")
 
