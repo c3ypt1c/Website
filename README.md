@@ -7,3 +7,4 @@ This is my website generation tool that I use on my website. There are still a l
   - JavaScript compression. 
 - Create content for the page
 - Make the page responsive
+- Fix footer
