@@ -4,7 +4,7 @@ from time import time
 import HelperFunctions
 from glob import glob
 
-localLogger = HelperFunctions.getLogger("generate.py")
+localLogger = HelperFunctions.getLogger()
 localLogger.debug("Loaded imports")
 
 try:

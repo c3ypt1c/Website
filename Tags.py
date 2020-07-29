@@ -3,7 +3,7 @@ from urllib import request
 import hashlib
 from HelperFunctions import getLogger
 
-localLogger = getLogger("Tags.py")
+localLogger = getLogger()
 
 
 def generateID(text):

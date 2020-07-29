@@ -7,7 +7,7 @@ from StaticStrings import *
 system("rm -r " + Logging.loggerFolder)
 system("mkdir " + Logging.loggerFolder)
 
-localLogger = HelperFunctions.getLogger("config.py")
+localLogger = HelperFunctions.getLogger()
 localLogger.debug("Rebuilt logging directory")
 
 # Removing paths

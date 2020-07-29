@@ -11,14 +11,11 @@ def Read(file):
     return fd
 
 
-def getLogger(name):
-    """
-    :type name: str
-    """
+def getLogger():
     import logging
 
     # create formatter
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - [%(filename)s:%(lineno)d] - %(message)s')
 
     # create console handler and set level to debug
     ch = logging.StreamHandler()
@@ -26,7 +23,7 @@ def getLogger(name):
     # ch.setLevel(logging.DEBUG)
 
     # create logger
-    logger = logging.getLogger(name)
+    logger = logging.getLogger("")
     logger.setLevel(logging.DEBUG)
 
     # add formatter to ch and add ch to logger
