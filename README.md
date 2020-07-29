@@ -8,6 +8,7 @@ This is my website generation tool that I use on my website. There are still a l
      - JavaScript compression. 
      - Compress existing content
    - Make integrity checks work inside Tags
+   - Make embedding work directly from files in Tags
  - CSS:
    - Fix footer
    - Make the page responsive
