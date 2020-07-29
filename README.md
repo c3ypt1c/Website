@@ -6,6 +6,7 @@ This is my website generation tool that I use on my website. There are still a l
    - Complete down.html
      - Pack CSS images into file for DOWN automatically.
      - JavaScript compression. 
+     - Compress existing content
    - Make integrity checks work inside Tags
  - CSS:
    - Fix footer
