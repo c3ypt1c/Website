@@ -1,10 +1,9 @@
 function decompress() {
-    const contentReplacePairs = {};
-
-    for (let image in document.getElementsByTagName("img")) {
-        let imgURL = image.getAttribute("src");
+    let images = document.getElementsByTagName("img");
+    for (let image = 0; image > images.length; image++) {
+        let imgURL = images[image].getAttribute("src");
         if (imgURL in contentReplacePairs) {
-            image.setAttribute("src", contentReplacePairs[imgURL])
+            images[image].setAttribute("src", contentReplacePairs[imgURL])
         }
     }
 
