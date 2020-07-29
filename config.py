@@ -60,6 +60,7 @@ class Page:
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", embed=True),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", embed=True),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", embed=True),
+        Tags.Style(Generation.publicFacingHTMLServerPath + "Resources/Styles/style.css", embed=True),
         Tags.Style(Generation.publicFacingHTMLServerPath + "Resources/Styles/styleEmbed.css", embed=True),
         Tags.Script(Generation.publicFacingHTMLServerPath + "Resources/Scripts/pageControl.js", embed=True)
     ]
