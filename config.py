@@ -51,7 +51,6 @@ class Page:
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"),
         Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css"),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
-        # Tags.Script("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),  # Advert Script
         Tags.Style("Resources/Styles/style.css"),
         Tags.Script("Resources/Scripts/pageControl.js")
     ]
