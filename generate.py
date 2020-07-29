@@ -103,7 +103,7 @@ localLogger.debug("Defined Document Data structures")
 documentClusters = []
 
 for File in glob(config.Generation.searchPath):
-    localLogger.info("Found file at: {}".format(File))
+    localLogger.debug("Found file at: {}".format(File))
     documentClusters.append(DocumentCluster(File))
 
 # Add all the sections
