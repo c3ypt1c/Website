@@ -11,4 +11,5 @@ This is my website generation tool that I use on my website. There are still a l
    - Make the page responsive
  - Misc:
    - Create content for the page
+   - Decide on a license before going public
  
