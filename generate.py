@@ -1,10 +1,8 @@
-import os
 import config
 from time import time
-import HelperFunctions
 from glob import glob
 
-localLogger = HelperFunctions.getLogger()
+localLogger = config.HelperFunctions.getLogger()
 localLogger.debug("Loaded imports")
 
 try:
@@ -16,7 +14,7 @@ except ModuleNotFoundError:
 try:
     from datauri import DataURI
 except ModuleNotFoundError:
-    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/ ")
+    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
     ModuleNotFoundError("DataURI module not found.")
 
 
@@ -81,7 +79,7 @@ class DocumentCluster:
         for document in glob(path + "/*"):
             self.documents.append(Document(document))
 
-        self.sectionName = os.path.basename(path)
+        self.sectionName = config.path.basename(path)
         self.id = config.Page.Tags.generateID(self.sectionName + path)
 
     def collectHTML(self):
@@ -222,7 +220,7 @@ for resource in resourceCache:
     makeResource = DataURI.from_file(fileLoc, base64=True).replace("/n", "")
     localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
 
-resourcePackVarLine = HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
+resourcePackVarLine = config.HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
 resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
 
 resourcePackVarScript = config.Page.Tags.HTMLElement("script", selfClosing=False, innerHTML=resourcePackVarLine)
@@ -232,9 +230,9 @@ downHTML = downHTML.replace("{resourcePackVarScript}", resourcePackVarScript)
 
 localLogger.info("Finishing building, writing...")
 
-HelperFunctions.Save(config.Generation.MinimumPage, bareHTML)
-HelperFunctions.Save(config.Generation.MainPage, beefHTML)
-HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
+config.HelperFunctions.Save(config.Generation.MinimumPage, bareHTML)
+config.HelperFunctions.Save(config.Generation.MainPage, beefHTML)
+config.HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(config.Generation.buildLocation))
 localLogger.info("Took: {}s".format(round(time() - start, 2)))

@@ -1,11 +1,11 @@
 import HelperFunctions
-from os import system, mkdir
+from os import mkdir, path
 import shutil
 from StaticStrings import *
 
-# remove old log TODO: fix unsafe parameter TODO: fix Linux only
-system("rm -r " + Logging.loggerFolder)
-system("mkdir " + Logging.loggerFolder)
+# remove old log
+shutil.rmtree(Logging.loggerFolder)
+mkdir(Logging.loggerFolder)
 
 localLogger = HelperFunctions.getLogger()
 localLogger.debug("Rebuilt logging directory")
@@ -21,8 +21,7 @@ except FileNotFoundError:
 localLogger.info("Rebuilding folders")
 mkdir(Generation.buildLocation)
 
-# TODO: Fix for Windows
-system("cp -r PublicResources {}".format(Generation.buildLocation + "Resources"))
+shutil.copytree("PublicResources", Generation.buildLocation + "Resources")
 
 localLogger.debug("Refreshed Public directory at {}".format(Generation.buildLocation))
 
