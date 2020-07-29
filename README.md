@@ -6,10 +6,10 @@ This is my website generation tool that I use on my website. There are still a l
    - Complete down.html
      - Pack CSS images into file for DOWN automatically.
      - JavaScript compression. 
+   - Make integrity checks work inside Tags
  - CSS:
    - Fix footer
    - Make the page responsive
  - Misc:
    - Create content for the page
-   - Decide on a license before going public
  
