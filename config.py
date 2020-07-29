@@ -29,16 +29,12 @@ localLogger.debug("Refreshed Public directory at {}".format(Generation.buildLoca
 
 class Page:
     import Tags  # Tags only needed for this specific section
-    header = """<!DOCTYPE HTML><html>{}<body>"""
+    header = """<!DOCTYPE HTML><html>{}<body{bodyAttributes}>"""
     baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
     baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
     baseHeadElementsMeta += Tags.Meta(attributes={"charset": "utf-8"})
 
     baseHead = Tags.Head(text=str(baseHeadElementsMeta) + str(baseHeadElementsTitle) + "{}")
-
-    header = header.format(baseHead)
-
-    bareHeader = header.format("")
 
     bigTitleInner = Tags.Paragraph(text="Lukasz Baldyga", attributes={"class": "Title"})
     bigTitleInner += Tags.Div(attributes={"class": "Hacker"})
@@ -75,8 +71,12 @@ class Page:
     for tag in EmbedHeadTags:
         EmbedHTML += str(tag)
 
+    downloadHeader = header.format(baseHead, bodyAttributes=" onLoad='decompress()'")
+    header = header.format(baseHead, bodyAttributes="")
+
     fullHeader = header.format(HeaderHTML)
-    embedHeader = header.format(EmbedHTML)
+    embedHeader = downloadHeader.format(EmbedHTML)
+    bareHeader = header.format("")
 
     # Increment build number
     buildNumber = 1 + int(HelperFunctions.Read(Generation.buildNumberLocation))

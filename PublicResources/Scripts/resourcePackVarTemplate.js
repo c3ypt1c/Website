@@ -1,1 +1,1 @@
-const contentReplacePairs = {};
+var contentReplacePairs = {};

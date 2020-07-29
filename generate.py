@@ -180,7 +180,7 @@ minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "
 
 bareHTML += midHTML + config.Page.footer
 beefHTML += str(minFlexWrapper) + config.Page.footer
-downHTML += str(minFlexWrapper) + config.Page.footer
+downHTML += str(minFlexWrapper) + "{resourcePackVarScript}" + config.Page.footer
 
 localLogger.info("Generating the downloadable version of the website")
 resourceCache = dict()
@@ -215,13 +215,20 @@ while pointer != len(downHTML):
     pointer = downHTML.find(">", nextImgTag + 1)
 
 
-localLogger.info("Making resources for download and packing them into the file")
+localLogger.info("Making resources for download and packing them into the resource pack variable")
 
 for resource in resourceCache:
     fileLoc = "Public" + resourceCache[resource]
-    makeResource = DataURI.from_file(fileLoc, base64=True)
+    makeResource = DataURI.from_file(fileLoc, base64=True).replace("/n", "")
     localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
-    downHTML = downHTML.replace(resourceCache[resource], makeResource)
+
+resourcePackVarLine = HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
+resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
+
+resourcePackVarScript = config.Page.Tags.HTMLElement("script", selfClosing=False, innerHTML=resourcePackVarLine)
+resourcePackVarScript = str(resourcePackVarScript)
+
+downHTML = downHTML.replace("{resourcePackVarScript}", resourcePackVarScript)
 
 localLogger.info("Finishing building, writing...")
 
