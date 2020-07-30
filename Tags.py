@@ -111,7 +111,7 @@ class Style(HTMLElement):
         if integrity and not external:
             NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
-        if embed:
+        if integrity and embed:
             localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
             integrity = False
 
