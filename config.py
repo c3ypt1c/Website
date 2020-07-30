@@ -94,4 +94,4 @@ class Page:
                                  attributes={"class": "footer"}
                                  )
 
-    footer = """{}</body></html>""".format(FooterTag)
+    HTMLEnd = "</body></html>"
