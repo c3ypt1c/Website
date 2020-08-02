@@ -12,13 +12,13 @@ try:
     from odf import opendocument, text
 except ModuleNotFoundError:
     localLogger.error("Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
-    raise ModuleNotFoundError("odf module not found.")
+    ModuleNotFoundError("odf module not found.")
 
 try:
     from datauri import DataURI
 except ModuleNotFoundError:
     localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
-    raise ModuleNotFoundError("DataURI module not found.")
+    ModuleNotFoundError("DataURI module not found.")
 
 
 start = time()
