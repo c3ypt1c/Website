@@ -222,8 +222,11 @@ localLogger.info("Making resources for download and packing them into the resour
 
 for resource in resourceCache:
     fileLoc = "Public" + resourceCache[resource]
-    makeResource = DataURI.from_file(fileLoc, base64=True).replace("/n", "")
+    makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
     localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
+    resourceCache[resource] = makeResource
+
+config.HelperFunctions.Save("logs/resourcePackDump.log", str(resourceCache))
 
 resourcePackVarLine = config.HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
 resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
