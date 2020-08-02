@@ -31,7 +31,7 @@ def getIntegrity(data):
     elif type(data) is not bytes:
         raise ValueError("Can only digest utf-8 strings and bytes")
 
-    return base64.b64encode(hashlib.sha384(data)).encode()
+    return "sha384-" + base64.b64encode(hashlib.sha384(data).digest()).__str__()
 
 
 HTMLElementDB = {"style": {"selfClosing": False},
@@ -114,7 +114,7 @@ class HTMLElement:
 
 
 class Style(HTMLElement):
-    def __init__(self, url, embed=False, integrity=False, internalPath=None):
+    def __init__(self, url, embed=False, internalPath=None):
         self.url = url
         self.generated = False
         self.generatedContent = None
@@ -124,21 +124,11 @@ class Style(HTMLElement):
         else:
             InnerHTML = getHTMLContent(url)
 
-        if integrity and embed:
-            localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
-            integrity = False
-
         if embed:
             super(Style, self).__init__("style", selfClosing=False, innerHTML=InnerHTML)
 
         else:
             attributeList = {"href": url, "rel": "stylesheet", "crossorgin": "anonymouse"}
-
-            if integrity:
-
-
-                attributeList["integrity"] = integrity
-
 
             super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
 
@@ -154,18 +144,17 @@ class Script(HTMLElement):
                 localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
                 integrity = False
 
-            InnerHTML = getHTMLContent(url)
-
-            super(Script, self).__init__("script", selfClosing=False, innerHTML=InnerHTML)
-
-        elif integrity and internalPath is not None:
-            raise NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
+            super(Script, self).__init__("script", selfClosing=False, innerHTML=getHTMLContent(url))
 
         else:
+            if internalPath is not None:
+                data = Read(internalPath)
+                localLogger.debug("Generating local for: " + internalPath)
+            else:
+                data = getHTMLContent(url)
+
             localLogger.debug("Generated for URL: " + url)
             super(Script, self).__init__("script", selfClosing=False, attributes={"src": url})
-            # TODO: Script also needs integrity
-            # TODO: Script also needs embedded scripts
 
 
 class Paragraph(HTMLElement):

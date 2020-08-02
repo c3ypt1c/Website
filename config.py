@@ -44,9 +44,9 @@ class Page:
     HeadTags = [
         Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity=True),
         Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", integrity=True),
-        Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", integrity=True),
+        Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css"),
         Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity=True),
-        Tags.Style("Resources/Styles/style.css", integrity=True, internalPath="PublicResources/Styles/style.css"),
+        Tags.Style("Resources/Styles/style.css", internalPath="PublicResources/Styles/style.css"),
         Tags.Script("Resources/Scripts/pageControl.js", integrity=True,
                     internalPath="PublicResources/Scripts/pageControl.js")
     ]
