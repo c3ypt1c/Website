@@ -1,8 +1,7 @@
 import string
 from urllib import request
 import hashlib
-from HelperFunctions import getLogger, Read
-import base64
+from HelperFunctions import getLogger
 
 localLogger = getLogger()
 
@@ -23,15 +22,6 @@ def getHTMLContent(url):
         localLogger.warning("Returning bytes, can't decode: '{}' request".format(url))
 
     return InnerHTML
-
-
-def getIntegrity(data):
-    if type(data) is str:
-        data = data.encode()
-    elif type(data) is not bytes:
-        raise ValueError("Can only digest utf-8 strings and bytes")
-
-    return base64.b64encode(hashlib.sha384(data)).encode()
 
 
 HTMLElementDB = {"style": {"selfClosing": False},
@@ -114,41 +104,35 @@ class HTMLElement:
 
 
 class Style(HTMLElement):
-    def __init__(self, url, embed=False, integrity=False, internalPath=None):
-        self.url = url
+    def __init__(self, url, embed=False, integrity=False, external=False):
         self.generated = False
         self.generatedContent = None
 
-        if internalPath is not None:
-            InnerHTML = Read(internalPath)
-        else:
-            InnerHTML = getHTMLContent(url)
+        if integrity and not external:
+            NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
         if embed:
             localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
             integrity = False
 
-        if embed:
+            InnerHTML = getHTMLContent(url)
+
             super(Style, self).__init__("style", selfClosing=False, innerHTML=InnerHTML)
 
         else:
-            attributeList = {"href": url, "rel": "stylesheet", "crossorgin": "anonymouse"}
+            attributeList = {"href": url,
+                             "rel": "stylesheet"
+                             }
 
             if integrity:
-
-
                 attributeList["integrity"] = integrity
-
+                attributeList["crossorigin"] = "anonymous"
 
             super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
 
 
 class Script(HTMLElement):
-    def __init__(self, url, embed=False, integrity=False, internalPath=None):
-        self.generated = False
-        self.generatedContent = None
-        self.url = url
-
+    def __init__(self, url, embed=False, integrity=False, external=False):
         if embed:
             if integrity:
                 localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
@@ -158,11 +142,10 @@ class Script(HTMLElement):
 
             super(Script, self).__init__("script", selfClosing=False, innerHTML=InnerHTML)
 
-        elif integrity and internalPath is not None:
-            raise NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
+        elif integrity and not external:
+            NotImplementedError("Integrity checking for internal files is not possible yet")  # TODO
 
         else:
-            localLogger.debug("Generated for URL: " + url)
             super(Script, self).__init__("script", selfClosing=False, attributes={"src": url})
             # TODO: Script also needs integrity
             # TODO: Script also needs embedded scripts
@@ -244,7 +227,7 @@ class FigureImageCombo(Figure):
     def __init__(self, imageURL, imageSubtext, imageAttributes=None, imageSubtextAttributes=None, attributes=None):
         image = Image(imageURL, attributes=imageAttributes)
         figureText = FigCaption(text=imageSubtext, attributes=imageSubtextAttributes)
-        super(FigureImageCombo, self).__init__(text=image + figureText, attributes=attributes)
+        super(FigureImageCombo, self).__init__(text=image+figureText, attributes=attributes)
 
 
 class Title(HTMLElement):
