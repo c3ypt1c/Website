@@ -179,11 +179,9 @@ midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
 
 minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "FlexWrapper"})
 
-pageContainer = config.Page.Tags.Div(text=minFlexWrapper + config.Page.FooterTag, attributes={"class": "pageContainer"})
-
-bareHTML += midHTML + config.Page.HTMLEnd
-beefHTML += str(pageContainer) + config.Page.HTMLEnd
-downHTML += str(pageContainer) + "{resourcePackVarScript}" + config.Page.HTMLEnd
+bareHTML += midHTML + config.Page.footer
+beefHTML += str(minFlexWrapper) + config.Page.footer
+downHTML += str(minFlexWrapper) + "{resourcePackVarScript}" + config.Page.footer
 
 localLogger.info("Generating the downloadable version of the website")
 resourceCache = dict()
