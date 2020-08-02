@@ -5,17 +5,20 @@ from glob import glob
 localLogger = config.HelperFunctions.getLogger()
 localLogger.debug("Loaded imports")
 
+# generateDownContent = True
+
+
 try:
     from odf import opendocument, text
 except ModuleNotFoundError:
     localLogger.error("Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
-    ModuleNotFoundError("odf module not found.")
+    raise ModuleNotFoundError("odf module not found.")
 
 try:
     from datauri import DataURI
 except ModuleNotFoundError:
     localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
-    ModuleNotFoundError("DataURI module not found.")
+    raise ModuleNotFoundError("DataURI module not found.")
 
 
 start = time()
@@ -176,9 +179,11 @@ midMain = config.Page.Tags.Main(text=midHTML, attributes={"class": "container"})
 
 minFlexWrapper = config.Page.Tags.Div(text=nav + midMain, attributes={"class": "FlexWrapper"})
 
-bareHTML += midHTML + config.Page.footer
-beefHTML += str(minFlexWrapper) + config.Page.footer
-downHTML += str(minFlexWrapper) + "{resourcePackVarScript}" + config.Page.footer
+pageContainer = config.Page.Tags.Div(text=minFlexWrapper + config.Page.FooterTag, attributes={"class": "pageContainer"})
+
+bareHTML += midHTML + config.Page.HTMLEnd
+beefHTML += str(pageContainer) + config.Page.HTMLEnd
+downHTML += str(pageContainer) + "{resourcePackVarScript}" + config.Page.HTMLEnd
 
 localLogger.info("Generating the downloadable version of the website")
 resourceCache = dict()
