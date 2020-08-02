@@ -124,7 +124,7 @@ class Style(HTMLElement):
         else:
             InnerHTML = getHTMLContent(url)
 
-        if integrity and embed:
+        if embed:
             localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
             integrity = False
 
