@@ -31,7 +31,8 @@ def getIntegrity(data):
     elif type(data) is not bytes:
         raise ValueError("Can only digest utf-8 strings and bytes")
 
-    return "sha384-" + base64.b64encode(hashlib.sha384(data).digest()).__str__()
+    # TODO: This is ugly, please fix.
+    return "sha384-" + str(base64.b64encode(hashlib.sha384(data).digest()))[2:-1]
 
 
 HTMLElementDB = {"style": {"selfClosing": False},
@@ -114,47 +115,76 @@ class HTMLElement:
 
 
 class Style(HTMLElement):
-    def __init__(self, url, embed=False, internalPath=None):
+    def __init__(self, url=None, embed=False, internalPath=None):
         self.url = url
         self.generated = False
         self.generatedContent = None
+        self.internalPath = internalPath
+
+        InnerHTML = None
 
         if internalPath is not None:
             InnerHTML = Read(internalPath)
+        elif url is not None:
+            if embed:
+                InnerHTML = getHTMLContent(url)
         else:
-            InnerHTML = getHTMLContent(url)
+            raise ValueError("You need to input either a url or an internal path")
 
         if embed:
+            if InnerHTML is None:
+                raise Exception("Unknown error")
+
             super(Style, self).__init__("style", selfClosing=False, innerHTML=InnerHTML)
 
         else:
-            attributeList = {"href": url, "rel": "stylesheet", "crossorgin": "anonymouse"}
-
+            attributeList = {"href": url, "rel": "stylesheet", "crossorigin": "anonymous"}
             super(Style, self).__init__("link", selfClosing=True, attributes=attributeList)
+
+    def getResourceInfo(self):
+        if self.url is None:
+            return self.internalPath
+        else:
+            return self.url
 
 
 class Script(HTMLElement):
-    def __init__(self, url, embed=False, integrity=False, internalPath=None):
+    def __init__(self, url=None, embed=False, integrity=False, internalPath=None):
         self.generated = False
         self.generatedContent = None
         self.url = url
+        self.internalPath = internalPath
 
-        if embed:
-            if integrity:
-                localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
-                integrity = False
+        if embed and integrity:
+            localLogger.warning("It's impossible to embed and have integrity checks. Disabling integrity checking")
+            integrity = False
 
-            super(Script, self).__init__("script", selfClosing=False, innerHTML=getHTMLContent(url))
-
-        else:
-            if internalPath is not None:
-                data = Read(internalPath)
-                localLogger.debug("Generating local for: " + internalPath)
-            else:
+        data = None
+        if internalPath is not None:
+            data = Read(internalPath)
+            localLogger.debug("Generating local for: " + internalPath)
+        elif url is not None:
+            if embed or integrity:
                 data = getHTMLContent(url)
+        else:
+            raise ValueError("You need to input either a url or an internal path")
 
+        if not embed:
+            attributes = {"src": url}
             localLogger.debug("Generated for URL: " + url)
-            super(Script, self).__init__("script", selfClosing=False, attributes={"src": url})
+            if integrity:
+                attributes["integrity"] = getIntegrity(data.encode())
+                attributes["crossorigin"] = "anonymous"
+
+            super(Script, self).__init__("script", selfClosing=False, attributes=attributes)
+        else:
+            super(Script, self).__init__("script", selfClosing=False, innerHTML=data)
+
+    def getResourceInfo(self):
+        if self.url is None:
+            return self.internalPath
+        else:
+            return self.url
 
 
 class Paragraph(HTMLElement):
