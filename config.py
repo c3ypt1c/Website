@@ -42,12 +42,13 @@ class Page:
     header += str(bigTitle)
 
     HeadTags = [
-        Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js"),
-        Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"),
-        Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css"),
-        Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"),
-        Tags.Style("Resources/Styles/style.css"),
-        Tags.Script("Resources/Scripts/pageControl.js")
+        Tags.Script("https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity=True),
+        Tags.Script("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", integrity=True),
+        Tags.Style("https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/darkly/bootstrap.min.css", integrity=True),
+        Tags.Script("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity=True),
+        Tags.Style("Resources/Styles/style.css", integrity=True, internalPath="PublicResources/Styles/style.css"),
+        Tags.Script("Resources/Scripts/pageControl.js", integrity=True,
+                    internalPath="PublicResources/Scripts/pageControl.js")
     ]
 
     EmbedHeadTags = [
@@ -61,13 +62,16 @@ class Page:
         Tags.Script(Generation.publicFacingHTMLServerPath + "Resources/Scripts/resourcePack.js", embed=True)
     ]
 
-    # Generating HTML for beef html template
+    localLogger.debug("Generating HTML for beef html template")
     HeaderHTML = ""
     for tag in HeadTags:
+        localLogger.debug("Adding tag with url: " + tag.url)
         HeaderHTML += str(tag)
 
+    localLogger.debug("Generating HTML for down template")
     EmbedHTML = ""
     for tag in EmbedHeadTags:
+        localLogger.debug("Embedding tag with url: " + tag.url)
         EmbedHTML += str(tag)
 
     downloadHeader = header.format(baseHead, bodyAttributes=" onLoad='decompress()'")

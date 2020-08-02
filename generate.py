@@ -5,6 +5,9 @@ from glob import glob
 localLogger = config.HelperFunctions.getLogger()
 localLogger.debug("Loaded imports")
 
+# generateDownContent = True
+
+
 try:
     from odf import opendocument, text
 except ModuleNotFoundError:
