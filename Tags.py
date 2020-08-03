@@ -12,6 +12,7 @@ def generateID(text):
 
 
 def getHTMLContent(url):
+    localLogger.debug("Getting content from: " + url)
     InnerHTMLPage = request.urlopen(url)
     InnerHTML = InnerHTMLPage.read()
     InnerHTMLPage.close()
