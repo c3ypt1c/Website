@@ -3,10 +3,8 @@ from time import time
 from glob import glob
 
 localLogger = config.HelperFunctions.getLogger()
-localLogger.debug("Loaded imports")
 
-# generateDownContent = True
-
+generateDownContent = True
 
 try:
     from odf import opendocument, text
@@ -17,9 +15,11 @@ except ModuleNotFoundError:
 try:
     from datauri import DataURI
 except ModuleNotFoundError:
-    localLogger.error("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
-    raise ModuleNotFoundError("DataURI module not found.")
+    generateDownContent = False
+    localLogger.warning("Content for download will not be generated.")
+    localLogger.warning("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
 
+localLogger.debug("Loaded imports")
 
 start = time()
 
@@ -183,64 +183,67 @@ pageContainer = config.Page.Tags.Div(text=minFlexWrapper + config.Page.FooterTag
 
 bareHTML += midHTML + config.Page.HTMLEnd
 beefHTML += str(pageContainer) + config.Page.HTMLEnd
-downHTML += str(pageContainer) + "{resourcePackVarScript}" + config.Page.HTMLEnd
 
-localLogger.info("Generating the downloadable version of the website")
-resourceCache = dict()
-pointer = 0
-while pointer != len(downHTML):
-    nextImgTag = downHTML.find("<img ", pointer)
-    if nextImgTag == -1:
-        break
+if generateDownContent:
+    downHTML += str(pageContainer) + "{resourcePackVarScript}" + config.Page.HTMLEnd
 
-    localLogger.debug("Found img tag at: " + str(nextImgTag))
+    localLogger.info("Generating the downloadable version of the website")
+    resourceCache = dict()
+    pointer = 0
+    while pointer != len(downHTML):
+        nextImgTag = downHTML.find("<img ", pointer)
+        if nextImgTag == -1:
+            break
 
-    srcAttributeStart = downHTML.find("src=\"", nextImgTag)
+        localLogger.debug("Found img tag at: " + str(nextImgTag))
 
-    localLogger.debug("Found src attribute in img at: " + str(srcAttributeStart))
+        srcAttributeStart = downHTML.find("src=\"", nextImgTag)
 
-    srcAttributeStart += len("src=\"")
-    srcAttributeEnd = downHTML.find("\"", srcAttributeStart)
+        localLogger.debug("Found src attribute in img at: " + str(srcAttributeStart))
 
-    localLogger.debug("Found src attribute end at: " + str(srcAttributeEnd))
+        srcAttributeStart += len("src=\"")
+        srcAttributeEnd = downHTML.find("\"", srcAttributeStart)
 
-    localURL = downHTML[srcAttributeStart:srcAttributeEnd]
+        localLogger.debug("Found src attribute end at: " + str(srcAttributeEnd))
 
-    localLogger.debug("Full string: '{}'".format(localURL))
+        localURL = downHTML[srcAttributeStart:srcAttributeEnd]
 
-    if localURL not in resourceCache:
-        localLogger.debug("Downloading and caching resource.")
+        localLogger.debug("Full string: '{}'".format(localURL))
 
-        resourceCache[localURL] = localURL
-    else:
-        localLogger.debug("Resource already downloaded, skipping...")
+        if localURL not in resourceCache:
+            localLogger.debug("Downloading and caching resource.")
 
-    pointer = downHTML.find(">", nextImgTag + 1)
+            resourceCache[localURL] = localURL
+        else:
+            localLogger.debug("Resource already downloaded, skipping...")
 
+        pointer = downHTML.find(">", nextImgTag + 1)
 
-localLogger.info("Making resources for download and packing them into the resource pack variable")
+    localLogger.info("Making resources for download and packing them into the resource pack variable")
 
-for resource in resourceCache:
-    fileLoc = "Public" + resourceCache[resource]
-    makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
-    localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
-    resourceCache[resource] = makeResource
+    for resource in resourceCache:
+        fileLoc = "Public" + resourceCache[resource]
+        makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+        localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
+        resourceCache[resource] = makeResource
 
-config.HelperFunctions.Save("logs/resourcePackDump.log", str(resourceCache))
+    config.HelperFunctions.Save("logs/resourcePackDump.log", str(resourceCache))
 
-resourcePackVarLine = config.HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
-resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
+    resourcePackVarLine = config.HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
+    resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
 
-resourcePackVarScript = config.Page.Tags.HTMLElement("script", selfClosing=False, innerHTML=resourcePackVarLine)
-resourcePackVarScript = str(resourcePackVarScript)
+    resourcePackVarScript = config.Page.Tags.HTMLElement("script", selfClosing=False, innerHTML=resourcePackVarLine)
+    resourcePackVarScript = str(resourcePackVarScript)
 
-downHTML = downHTML.replace("{resourcePackVarScript}", resourcePackVarScript)
+    downHTML = downHTML.replace("{resourcePackVarScript}", resourcePackVarScript)
 
 localLogger.info("Finishing building, writing...")
 
 config.HelperFunctions.Save(config.Generation.MinimumPage, bareHTML)
 config.HelperFunctions.Save(config.Generation.MainPage, beefHTML)
-config.HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
+
+if generateDownContent:
+    config.HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(config.Generation.buildLocation))
 localLogger.info("Took: {}s".format(round(time() - start, 2)))
