@@ -206,4 +206,8 @@ footer {
 	.Open > div {
 		width: 100%;
 	}
+
+	.FlexWrapper main.container {
+		margin: auto;
+	}
 }
