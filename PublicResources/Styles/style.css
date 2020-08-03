@@ -161,6 +161,10 @@ footer {
 		display: block;
 	}
 
+	.FlexWrapper * {
+		transition: all 0.5s ease-in, width 0s linear, height 0s linear;
+	}
+
 	.FlexWrapper > nav {
 		margin-right: auto;
 
@@ -172,11 +176,7 @@ footer {
 	.FlexWrapper > div {
 		flex-direction: row;
 		flex-wrap: wrap;
-	}
-
-	.FolderAndFiles {
-		margin-right: auto;
-		margin-left: auto;
+		justify-content: space-around;
 	}
 
 	.FlexWrapper nav > div > div {
@@ -187,5 +187,23 @@ footer {
 
 	.FolderAndFiles > div > figure.Closed {
 		width: 0;
+	}
+
+	.FolderAndFiles {
+		width: 10em;
+		margin: auto;
+	}
+
+	.Open + .FolderAndFiles {
+		margin: 0;
+	}
+
+	.Open {
+		width: 100%;
+		margin: 0;
+	}
+
+	.Open > div {
+		width: 100%;
 	}
 }

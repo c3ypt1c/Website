@@ -18,6 +18,7 @@ function OpenFolder(id) {
     }
     else {
         HideAllFolders();
+        id.parentNode.classList.add("Open");
         let items = id.parentNode.getElementsByTagName("figure");
 
         for (let item = 0; item < items.length; item++) {
@@ -40,6 +41,7 @@ function ShowAllFolders() {
     let folders = document.getElementsByClassName("Folder");
     for (let folder = 0; folder < folders.length; folder++) {
         folders[folder].classList.remove("Closed");
+        folders[folder].parentElement.classList.remove("Open");
         let sect = document.getElementById(folders[folder].getAttribute("data-openid"));
 
         if(!sect.classList.contains("Closed")) {
