@@ -19,14 +19,17 @@ and the optional library using:
 `pip install python-datauri`
 
 
-#### Suggested things to finish for the project
- - Generation:
-   - Complete down.html
-     - Pack CSS images into file for DOWN automatically.
-     - JavaScript LZMA compression. See: https://github.com/LZMA-JS/LZMA-JS
+#### Mandatory to do:
  - CSS:
    - Make the page responsive
  - Misc:
    - Create content for the page
+
+
+#### Optional to do:
+ - Generation:
+   - Complete down.html
+     - Pack CSS images into file for `down.html` automatically.
+     - JavaScript LZMA compression. See: https://github.com/LZMA-JS/LZMA-JS
+ - Misc:
    - Write about the program in the wiki
- 
