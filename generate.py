@@ -129,12 +129,10 @@ tocHTML = ""
 
 folderFilePairs = dict()
 
-i = 0
 for documentCluster in documentClusters:
-    i += 1
 
     innerHTML = str(config.Page.Tags.FigureImageCombo(config.Generation.publicFolderImageLocation,
-                                                      "Cluster {}".format(i),
+                                                      "{}".format(documentCluster.sectionName),
                                                       attributes=
                                                       {"class": "figure Folder",
                                                        "onclick": "OpenFolder(this)",
