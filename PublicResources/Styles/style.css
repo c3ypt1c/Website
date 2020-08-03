@@ -1,5 +1,6 @@
 body {
 	background-color: black;
+	overflow-x: hidden;
 }
 
 .TitleWrapper {
@@ -68,6 +69,7 @@ body {
 .FlexWrapper {
 	display: flex;
 	justify-content: flex-end;
+	padding-bottom: 2.5rem;    /* Footer height */
 }
 
 .FlexWrapper nav {
@@ -146,13 +148,44 @@ article {
   min-height: 100vh;
 }
 
-.FlexWrapper {
-  padding-bottom: 2.5rem;    /* Footer height */
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 2.5rem;            /* Footer height */
+	background-color: gray;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;            /* Footer height */
+@media (max-width: 40em) {
+	.FlexWrapper {
+		display: block;
+	}
+
+	.FlexWrapper > nav {
+		margin-right: auto;
+
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.FlexWrapper > div {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.FolderAndFiles {
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	.FlexWrapper nav > div > div {
+		flex-direction: row;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+
+	.FolderAndFiles > div > figure.Closed {
+		width: 0;
+	}
 }
