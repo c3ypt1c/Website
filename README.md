@@ -1,6 +1,8 @@
 # Website
 This is my website generation tool that I use on my website. There are still a lot of things to do. Thanks for checking out my repo.
 
+There is a [to do](TODO.md) list that you can look at which lists things that the program will benefit from.
+
 ## Installation
 The program is very simple to use and install. Essentially it's a bunch of scripts that with some external libraries generate the files to be used on the web. 
 
@@ -18,6 +20,3 @@ and the optional library using:
 
 `pip install python-datauri`
 
-
-# TODO Lists
-There is a TODO list that you can look at [TODO.md](TODO.md) which lists things that the program will benefit from. 
