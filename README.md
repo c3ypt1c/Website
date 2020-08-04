@@ -19,17 +19,5 @@ and the optional library using:
 `pip install python-datauri`
 
 
-#### Mandatory to do:
- - CSS:
-   - Make the page responsive
- - Misc:
-   - Create content for the page
-
-
-#### Optional to do:
- - Generation:
-   - Complete down.html
-     - Pack CSS images into file for `down.html` automatically.
-     - JavaScript LZMA compression. See: https://github.com/LZMA-JS/LZMA-JS
- - Misc:
-   - Write about the program in the wiki
+# TODO Lists
+There is a TODO list that you can look at [TODO.md](TODO.md) which lists things that the program will benefit from. 
