@@ -46,12 +46,14 @@ class HTMLElement:
     selfClosingString = string.Template("""<${elementName}$attributes/>""")
     notSelfClosingString = string.Template("""<${elementName}$attributes>$innerHTML</$elementName>""")
     attributeString = string.Template(""" $attribute="$value\"""")
+    pattributeString = string.Template(""" $pattribute""")
 
-    def __init__(self, elementName, selfClosing=None, attributes=None, innerHTML=""):
+    def __init__(self, elementName, selfClosing=None, attributes=None, pattributes=None, innerHTML=""):
         """
         :type elementName: str
         :type selfClosing: bool
         :type attributes: dict
+        :type pattributes: list
         :type innerHTML: str
         :type innerHTML: object
 
@@ -79,9 +81,13 @@ class HTMLElement:
         if attributes is None:
             attributes = {}
 
+        if pattributes is None:
+            pattributes = []
+
         self.attributes = attributes
         self.selfClosing = selfClosing
         self.innerHTML = innerHTML
+        self.pattributes = pattributes
 
     def __str__(self):
         """
@@ -95,6 +101,9 @@ class HTMLElement:
         for attributeName in self.attributes:
             attributesPile += self.attributeString.substitute(attribute=attributeName,
                                                               value=self.attributes[attributeName])
+        for pattribute in self.pattributes:
+            attributesPile += self.pattributeString.substitute(pattribute=pattribute)
+
         if self.selfClosing:
             HTML = self.selfClosingString
             self.generatedContent = HTML.substitute(elementName=self.elementName,

@@ -2,6 +2,7 @@ import HelperFunctions
 from os import mkdir, path
 import shutil
 from StaticStrings import *
+from time import gmtime, strftime
 
 # remove old log
 shutil.rmtree(Logging.loggerFolder)
@@ -89,6 +90,13 @@ class Page:
 
     # Add build number to footer
     buildNumberParagraph = Tags.Paragraph("Build Number: " + str(buildNumber))
+    buildNumberParagraph += str(Tags.Paragraph("Last updated: " + strftime("%Y-%m-%d %H:%M:%S", gmtime())))
+    buildNumberParagraph += str(Tags.HTMLElement("a",
+                                                 selfClosing=False,
+                                                 attributes={"href": "down.html", "target": "_blank"},
+                                                 pattributes=["download"],
+                                                 innerHTML="Download latest page"))
+
     FooterDiv = Tags.Div(text=buildNumberParagraph,
                          attributes={"class": "container"})
 
