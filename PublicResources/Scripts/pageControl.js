@@ -67,4 +67,8 @@ function OpenSection(id) {
     }, 350);
 }
 
+function GoToWelcome() {
+
+}
+
 console.log("pageControl.js loaded");
