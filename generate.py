@@ -1,5 +1,7 @@
-import config
 from time import time
+start = time()
+
+import config
 from glob import glob
 
 localLogger = config.HelperFunctions.getLogger()
@@ -21,7 +23,7 @@ except ModuleNotFoundError:
 
 localLogger.debug("Loaded imports")
 
-start = time()
+
 
 
 class Document:
