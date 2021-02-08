@@ -10,3 +10,5 @@
      - JavaScript LZMA compression. See: https://github.com/LZMA-JS/LZMA-JS
  - Misc:
    - Write about the program in the wiki
+ - Bugs:
+   - In Firefox article mode, if not using `bare.html`, images appear. 

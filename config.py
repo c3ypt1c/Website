@@ -40,6 +40,11 @@ class Page:
     bigTitleInner += Tags.Div(attributes={"class": "Hacker"})
     bigTitle = Tags.Div(text=bigTitleInner, attributes={"class": "TitleWrapper"})
 
+    # Add NoScript warning
+    bigTitle += Tags.NoScript(
+        text="Folders won't work unless you enable JavaScript. Maybe you're looking for the <a href=bare.html class=text-success>bare</a> version?",
+        attributes={"class": "text-center font-weight-bold w-100 p-3 mx-auto d-block"})
+
     header += str(bigTitle)
 
     HeadTags = [

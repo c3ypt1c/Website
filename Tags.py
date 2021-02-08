@@ -194,6 +194,11 @@ class Script(HTMLElement):
             return self.url
 
 
+class NoScript(HTMLElement):
+    def __init__(self, text, attributes=None):
+        super(NoScript, self).__init__("noscript", selfClosing=False, innerHTML=text, attributes=attributes)
+
+
 class Paragraph(HTMLElement):
     def __init__(self, text, attributes=None):
         super(Paragraph, self).__init__("p", selfClosing=False, innerHTML=text, attributes=attributes)
