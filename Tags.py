@@ -36,12 +36,6 @@ def getIntegrity(data):
     return "sha384-" + str(base64.b64encode(hashlib.sha384(data).digest()))[2:-1]
 
 
-HTMLElementDB = {"style": {"selfClosing": False},
-                 "link": {"selfClosing": True},
-                 "script": {"selfClosing": False}
-                 }
-
-
 class HTMLElement:
     selfClosingString = string.Template("""<${elementName}$attributes/>""")
     notSelfClosingString = string.Template("""<${elementName}$attributes>$innerHTML</$elementName>""")
@@ -62,16 +56,19 @@ class HTMLElement:
 
         innerHTML = str(innerHTML)
 
+        # Inner HTML can have invalid html that needs to be removed
+        # TODO: implement a full list of bad tags that cannot be inside <p> and correctly extract them
+        if elementName == "p":
+            badTags = ["ul", "ol"]
+            for badTag in badTags:
+                innerHTML = innerHTML.replace("<{}>".format(badTag), "</p><{}>".format(badTag))
+                innerHTML = innerHTML.replace("</{}>".format(badTag), "</{}><p>".format(badTag))
+
         self.generated = False
         self.generatedContent = None
 
         if selfClosing is None:
-            if elementName in HTMLElementDB:
-                selfClosing = HTMLElementDB[elementName]["selfClosing"]
-                # Add other attributes that are needed here
-            else:
-                localLogger.warning("Assuming that tag {} is not self closing".format(elementName))
-                selfClosing = False
+            raise Exception("Self closing is not defined for tag {}".format(elementName))
 
         if selfClosing and innerHTML:
             ValueError("Tag cannot be self closing and have inner HTML")

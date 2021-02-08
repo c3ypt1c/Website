@@ -29,7 +29,7 @@ localLogger.debug("Refreshed Public directory at {}".format(Generation.buildLoca
 
 class Page:
     import Tags  # Tags only needed for this specific section
-    header = """<!DOCTYPE HTML><html>{}<body{bodyAttributes}>"""
+    header = """<!DOCTYPE HTML><html lang="en">{}<body{bodyAttributes}>"""
     baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
     baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
     baseHeadElementsMeta += Tags.Meta(attributes={"charset": "utf-8"})

@@ -1,4 +1,5 @@
 from time import time
+
 start = time()
 
 import config
@@ -22,8 +23,6 @@ except ModuleNotFoundError:
     localLogger.warning("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
 
 localLogger.debug("Loaded imports")
-
-
 
 
 class Document:
@@ -50,6 +49,7 @@ class Document:
 
         self.doc = opendocument.load(self.path)
 
+        # Discover and set elements
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             if styleType == "Title":
