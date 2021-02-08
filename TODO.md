@@ -13,5 +13,6 @@
    - Add fonts, specifically Gravity.
    - Fix bad integrity checks
    - Embedding images should be better 
+   - Include a validator for HTML 
  - Bugs:
    - In Firefox article mode, if not using `bare.html`, images appear. 
