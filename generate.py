@@ -52,10 +52,11 @@ class Document:
         # Discover and set elements
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
+            localLogger.debug(styleType + " for " + str(element))
             if styleType == "Title":
                 self.title = str(element)
                 internalArticleText += str(config.Page.Tags.Hx(2, text=element))
-            elif styleType == "P3":
+            elif styleType == "P3" or styleType == "Subtitle":
                 internalArticleText += str(config.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
             else:
                 internalArticleText += str(config.Page.Tags.Paragraph(text=element))
