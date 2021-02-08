@@ -3,6 +3,7 @@ from time import time
 start = time()
 
 import config
+from os import remove as removeFile
 from glob import glob
 
 localLogger = config.HelperFunctions.getLogger()
@@ -223,8 +224,22 @@ if generateDownContent:
     localLogger.info("Making resources for download and packing them into the resource pack variable")
 
     for resource in resourceCache:
-        fileLoc = "Public" + resourceCache[resource]
-        makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+        try:
+            fileLoc = "Public" + resourceCache[resource]
+            makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+        except FileNotFoundError:
+            localLogger.warning("Failed to find resource locally. Embedded by page?")
+            localLogger.debug("Writing temporary file")
+
+            fileLoc = "file.tmp"
+            with open(fileLoc, "wb") as file:
+                file.write(config.Page.Tags.getHTMLContent(resourceCache[resource]))
+
+            makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+
+            localLogger.debug("Removing temporary file")
+            removeFile(fileLoc)
+
         localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
         resourceCache[resource] = makeResource
 

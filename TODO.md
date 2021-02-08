@@ -11,5 +11,7 @@
  - Misc:
    - Write about the program in the wiki
    - Add fonts, specifically Gravity.
+   - Fix bad integrity checks
+   - Embedding images should be better 
  - Bugs:
    - In Firefox article mode, if not using `bare.html`, images appear. 
