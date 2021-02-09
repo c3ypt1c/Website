@@ -54,6 +54,10 @@ class Document:
         for element in self.doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             localLogger.debug(styleType + " for " + str(element))
+            if str(element).strip() == "":
+                localLogger.debug("Skipping empty string")
+                continue
+
             if styleType == "Title":
                 self.title = str(element)
                 internalArticleText += str(config.Page.Tags.Hx(2, text=element))
