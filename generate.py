@@ -1,8 +1,8 @@
 from time import time
-
 start = time()
 
 import config
+import html_validate
 from os import remove as removeFile
 from glob import glob
 
@@ -262,4 +262,14 @@ if generateDownContent:
     config.HelperFunctions.Save(config.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(config.Generation.buildLocation))
+localLogger.info("Checking bareHTML created code:")
+html_validate.validateAndLog(bareHTML.encode())
+
+if generateDownContent:
+    localLogger.info("Checking downHTML created code:")
+    html_validate.validateAndLog(downHTML.encode())
+
+localLogger.info("Checking beefHTML created code:")
+html_validate.validateAndLog(beefHTML.encode())
+
 localLogger.info("Took: {}s".format(round(time() - start, 2)))
