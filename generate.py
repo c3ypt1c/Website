@@ -1,4 +1,5 @@
 from time import time
+
 start = time()
 
 import config
@@ -26,7 +27,7 @@ except ModuleNotFoundError:
 localLogger.debug("Loaded imports")
 
 
-class Document:
+class Article:
     documentCounter = 0
 
     def __init__(self, path, genContent=False):
@@ -66,15 +67,15 @@ class Document:
             else:
                 internalArticleText += str(config.Page.Tags.Paragraph(text=element))
 
-        Document.documentCounter += 1
+        Article.documentCounter += 1
 
-        self.id = config.Page.Tags.generateID(self.title + internalArticleText + str(Document.documentCounter))
+        self.id = config.Page.Tags.generateID(self.title + internalArticleText + str(Article.documentCounter))
 
         article = config.Page.Tags.Article(text=internalArticleText,
                                            attributes={"id": self.id}
                                            )
 
-        localLogger.debug("Generated document number {}".format(Document.documentCounter))
+        localLogger.debug("Generated document number {}".format(Article.documentCounter))
 
         self.dHTML = str(article)
 
@@ -83,20 +84,26 @@ class Document:
         return self.dHTML
 
 
-class DocumentCluster:
+class ArticleCluster:
     def __init__(self, path):
         self.documents = []  # get all the documents
 
         for document in glob(path + "/*"):
-            self.documents.append(Document(document))
+            self.documents.append(Article(document))
 
         self.sectionName = config.path.basename(path)
         self.id = config.Page.Tags.generateID(self.sectionName + path)
 
     def collectHTML(self):
         dHTML = ""
+        dHTMLCount = 0
         for document in self.documents:
             dHTML += document.gen()
+            if dHTMLCount < len(self.documents) - 1:
+                dHTML += str(config.Page.Tags.Div(
+                    attributes={"class": "separator"}))
+
+            dHTMLCount += 1
 
         h1 = config.Page.Tags.Hx(1, text=self.sectionName)
         header = config.Page.Tags.Header(text=h1)
@@ -113,7 +120,7 @@ documentClusters = []
 
 for File in glob(config.Generation.searchPath):
     localLogger.debug("Found file at: {}".format(File))
-    documentClusters.append(DocumentCluster(File))
+    documentClusters.append(ArticleCluster(File))
 
 # Add all the sections
 
@@ -190,7 +197,7 @@ pageContainer = config.Page.Tags.Div(text=minFlexWrapper + config.Page.FooterTag
 bareHTML += midHTML + config.Page.HTMLEnd
 beefHTML += str(pageContainer) + config.Page.HTMLEnd
 
-if generateDownContent:
+if generateDownContent:  # Generate content for download
     downHTML += str(pageContainer) + "{resourcePackVarScript}" + config.Page.HTMLEnd
 
     localLogger.info("Generating the downloadable version of the website")
