@@ -193,8 +193,12 @@ footer p {
 		display: block;
 	}
 
-	.FlexWrapper * {
-		transition: all 0.5s ease-in, width 0s linear, height 0s linear;
+	.FlexWrapper .container section {
+		transition: width 0s linear, height 0s linear, opacity 0s linear;
+	}
+
+	.FlexWrapper .container .FolderAndFiles * {
+		transition: all 1s ease, width 0s linear, height 0s linear, opacity 0s linear;
 	}
 
 	.FlexWrapper > nav {
