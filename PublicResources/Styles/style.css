@@ -17,7 +17,7 @@ img {
 }
 
 .TitleWrapper {
-	transition: filter 10s ease-in-out;
+	transition: filter 10s ease;
 	font-size:4em;
 	display: inline-block;
 	width: 100%;
