@@ -17,10 +17,16 @@ img {
 }
 
 .TitleWrapper {
+	transition: filter 10s ease-in-out;
 	font-size:4em;
 	display: inline-block;
 	width: 100%;
 	text-align: center;
+	filter:hue-rotate(0deg);
+}
+
+.TitleWrapper:hover {
+	filter: hue-rotate(280deg);
 }
 
 .Title {
