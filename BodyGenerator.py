@@ -111,4 +111,4 @@ class Page:
                                  attributes={"class": "footer"}
                                  )
 
-    HTMLEnd = "</body></html>"
+    HTMLEnd = "<div id='returnToTop'></div></body></html>"
