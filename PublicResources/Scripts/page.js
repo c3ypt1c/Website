@@ -9,7 +9,8 @@ function onLoad() {
     console.log("running post-load");
     GoToWelcome();
 
-    MakeGoUp()
+    MakeGoUp();
+    GoUpThePage();
     document.addEventListener('scroll', GoUpHandler);
 }
 
