@@ -71,18 +71,4 @@ function GoToWelcome() {
 
 }
 
-function GoUpHandler() {
-    let goUp = document.getElementById("returnToTop");
-    if(window.scrollY > 0) goUp.classList.add("show");
-    else goUp.classList.remove("show");
-}
-
-function GoUpThePage() {
-    document.documentElement.scrollTop = document.body.scrollTop = 0;
-}
-
-document.addEventListener("click", GoUpThePage)
-
-document.addEventListener('scroll', GoUpHandler);
-
 console.log("pageControl.js loaded");

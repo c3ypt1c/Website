@@ -1,5 +1,5 @@
 import HelperFunctions
-from os import mkdir, path
+from os import mkdir, remove, path
 import shutil
 from StaticStrings import *
 from time import gmtime, strftime
@@ -19,6 +19,12 @@ try:
 except FileNotFoundError:
     localLogger.warning("Folder not found. Ignore this if this is the first time building.")
 
+try:
+    remove("file.tmp")
+    localLogger.info("Old tmp file removed")
+except FileNotFoundError:
+    localLogger.debug("No old file found")
+
 localLogger.info("Rebuilding folders")
 mkdir(Generation.buildLocation)
 
@@ -29,7 +35,7 @@ localLogger.debug("Refreshed Public directory at {}".format(Generation.buildLoca
 
 class Page:
     import Tags  # Tags only needed for this specific section
-    header = """<!DOCTYPE HTML><html lang="en">{}<body{bodyAttributes}>"""
+    header = """<!DOCTYPE HTML><html lang="en">{}<body {bodyAttributes}>"""
     baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
     baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
     baseHeadElementsMeta += Tags.Meta(attributes={"charset": "utf-8"})
@@ -54,7 +60,9 @@ class Page:
         Tags.Script(url="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity=True),
         Tags.Style(url="Resources/Styles/style.css", internalPath="PublicResources/Styles/style.css"),
         Tags.Script(url="Resources/Scripts/pageControl.js", integrity=True,
-                    internalPath="PublicResources/Scripts/pageControl.js")
+                    internalPath="PublicResources/Scripts/pageControl.js"),
+        Tags.Script(url="Resources/Scripts/page.js", integrity=True,
+                    internalPath="PublicResources/Scripts/page.js")
     ]
 
     EmbedHeadTags = [
@@ -65,7 +73,8 @@ class Page:
         Tags.Style(internalPath="PublicResources/Styles/style.css", embed=True),
         Tags.Style(internalPath="PublicResources/Styles/styleEmbed.css", embed=True),
         Tags.Script(internalPath="PublicResources/Scripts/pageControl.js", embed=True),
-        Tags.Script(internalPath="PublicResources/Scripts/resourcePack.js", embed=True)
+        Tags.Script(internalPath="PublicResources/Scripts/resourcePack.js", embed=True),
+        Tags.Script(internalPath="PublicResources/Scripts/page.js", embed=True)
     ]
 
     localLogger.debug("Generating HTML for beef html template")
@@ -80,8 +89,8 @@ class Page:
         localLogger.debug("Embedding tag with resource: " + tag.getResourceInfo())
         EmbedHTML += str(tag)
 
-    downloadHeader = header.format(baseHead, bodyAttributes=" onLoad='decompress()'")
-    header = header.format(baseHead, bodyAttributes="")
+    downloadHeader = header.format(baseHead, bodyAttributes="onLoad='onLoadCompressed()'")
+    header = header.format(baseHead, bodyAttributes="onLoad='onLoad()'")
 
     fullHeader = header.format(HeaderHTML)
     embedHeader = downloadHeader.format(EmbedHTML)
@@ -111,4 +120,4 @@ class Page:
                                  attributes={"class": "footer"}
                                  )
 
-    HTMLEnd = "<div id='returnToTop'></div></body></html>"
+    HTMLEnd = "</body></html>"

@@ -188,22 +188,29 @@ footer p {
 	vertical-align: middle;
 }
 
-#returnToTop {
+#returnToTopContainer {
 	position: fixed;
+	opacity: 0;
 	bottom: -2rem;
 	right: 1rem;
 	width: 3rem;
 	height: 2rem;
-	clip-path: polygon(50% 0, 0 100%, 25% 100%, 50% 50%, 75% 100%, 100% 100%);
-	background: linear-gradient(-90deg, rgb(72, 253, 45) 0%, rgba(54,225,116,0.5032213569021359) 80%, rgba(34,193,195,0) 100%);
 	display: block;
 	margin: auto;
-	transition: bottom .2s ease-in-out;
+	transition: all .2s ease-in-out;
 	cursor: pointer;
 }
 
-#returnToTop.show {
+#returnToTopContainer.show {
 	bottom: 1rem;
+	opacity: 1;
+}
+
+#returnToTop {
+	width: 100%;
+	height: 100%;
+	clip-path: polygon(50% 0, 0 100%, 25% 100%, 50% 50%, 75% 100%, 100% 100%);
+	background: linear-gradient(-90deg, rgb(72, 253, 45) 0%, rgba(54,225,116,0.5032213569021359) 80%, rgba(34,193,195,0) 100%);
 }
 
 @media (max-width: 40em) {
