@@ -1,5 +1,5 @@
 import HelperFunctions
-from os import mkdir, remove, path
+from os import mkdir, remove, path  # Pycharm is a liar
 import shutil
 from StaticStrings import *
 from time import gmtime, strftime
@@ -39,6 +39,9 @@ class Page:
     baseHeadElementsTitle = Tags.Title("Lukasz Baldyga")
     baseHeadElementsMeta = Tags.Meta(attributes={"name": "viewport", "content": "width=device-width, initial-scale=1"})
     baseHeadElementsMeta += Tags.Meta(attributes={"charset": "utf-8"})
+
+    # Link to favicon
+    baseHeadElementsMeta += str(Tags.Link(attributes={"rel": "icon", "type": "image/png", "href": "Resources/favico.png"}))
 
     baseHead = Tags.Head(text=str(baseHeadElementsMeta) + str(baseHeadElementsTitle) + "{}")
 

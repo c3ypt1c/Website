@@ -293,4 +293,9 @@ class Head(HTMLElement):
         super(Head, self).__init__("head", selfClosing=False, innerHTML=text, attributes=attributes)
 
 
+class Link(HTMLElement):
+    def __init__(self, text="", attributes=None):
+        super(Link, self).__init__("link", selfClosing=True, innerHTML=text, attributes=attributes)
+
+
 localLogger.debug("Phrased Tags.py fully")
