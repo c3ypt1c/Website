@@ -13,5 +13,6 @@
    - Add fonts, specifically Gravity.
    - Fix bad integrity checks
    - Embedding images should be better
+   - Embed latest `green_line.svg` file.
  - Bugs:
-   - In Firefox article mode, if not using `bare.html`, images appear. 
+   - In Firefox article mode, if not using `bare.html`, navigation images appear. 

@@ -49,7 +49,7 @@ h1 {
 	left:0;
 	display: inline-block;
 	overflow: hidden;
-	background-image: url(../StyleImages/green_line.png);
+	background-image: url(../StyleImages/green_line.svg);
 	background-repeat: repeat-x;
 	transition: filter 1s linear;
 	height: 1em;
