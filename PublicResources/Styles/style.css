@@ -7,6 +7,10 @@ img {
 	max-width: 100%;
 }
 
+a {
+	transition: all 0.2s ease-in-out;
+}
+
 .separator {
 	display: block;
 	width: 100%;
@@ -118,7 +122,7 @@ h1 {
 .FolderAndFiles img {
 	transition: 3s cubic-bezier(.05,.99,.46,.47) all;
 	cursor: pointer; /* TODO: Fix for ie */
-	filter: invert(100%) brightness(45%) sepia(100%) saturate(400%) hue-rotate(60deg);
+	filter: invert(100%) brightness(60%) sepia(100%) saturate(400%) hue-rotate(60deg);
 	transform: rotate(5deg);
 }
 
@@ -127,7 +131,7 @@ h1 {
 }
 
 .FolderAndFiles img:hover {
-	filter: invert(100%) brightness(37%) sepia(100%) saturate(400%) hue-rotate(-20deg);
+	filter: invert(100%) brightness(50%) sepia(100%) saturate(400%) hue-rotate(-20deg);
 	transform: rotate(-10deg);
 }
 
