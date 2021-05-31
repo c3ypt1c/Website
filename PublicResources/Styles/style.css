@@ -117,12 +117,22 @@ h1 {
 
 .FolderAndFiles img {
 	transition: 3s cubic-bezier(.05,.99,.46,.47) all;
-	cursor: pointer; /* Fix for ie */
+	cursor: pointer; /* TODO: Fix for ie */
+	filter: invert(100%) brightness(45%) sepia(100%) saturate(400%) hue-rotate(60deg);
+	transform: rotate(5deg);
+}
+
+.FolderAndFiles img:first-child {
+	transform: rotate(0deg);
 }
 
 .FolderAndFiles img:hover {
-	filter: hue-rotate(-90deg) saturate(1);
+	filter: invert(100%) brightness(37%) sepia(100%) saturate(400%) hue-rotate(-20deg);
 	transform: rotate(-10deg);
+}
+
+.FolderAndFiles .Folder img {
+	transform: rotate(0deg);
 }
 
 .FolderAndFiles .Folder img:hover {

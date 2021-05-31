@@ -7,10 +7,10 @@ class Generation:
     searchPath = "Sections/*"
     buildNumberLocation = "build number"
 
-    publicFolderImageLocation = "Resources/PageImages/Folder2.png"
-    publicFolderOpenImageLocation = "Resources/PageImages/Folder2open.png"
-    publicFileImageLocation = "Resources/PageImages/File2.png"
-    publicBackImageLocation = "Resources/PageImages/FileUp2shade3.png"
+    publicFolderImageLocation = "Resources/PageImages/folder-sharp.svg"
+    publicFolderOpenImageLocation = "Resources/PageImages/folder-open-sharp.svg"
+    publicFileImageLocation = "Resources/PageImages/document-text-sharp.svg"
+    publicBackImageLocation = "Resources/PageImages/arrow-back-sharp.svg"
 
     buildLocation = "/srv/http/WebsitePublic/"
 
