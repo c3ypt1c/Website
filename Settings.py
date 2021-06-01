@@ -20,7 +20,7 @@ class Generation:
 
 
 class Verification:  # Replace with flags
-    verify = False
+    verify = True 
     verifyMainPage = verify and True
     verifyMinimumPage = verify and True
     verifyDownloadPage = verify and True
