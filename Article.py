@@ -105,7 +105,7 @@ class ArticleCluster:
     def __init__(self, documentPath):
         self.documents = []  # get all the documents
 
-        for document in glob(documentPath + "/*"):
+        for document in sorted(glob(documentPath + "/*")):
             localLogger.info("Adding: {}".format(document))
             self.documents.append(Article(document))
 
