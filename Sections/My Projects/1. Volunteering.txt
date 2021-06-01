@@ -1,0 +1,4 @@
+Tor Project
+I have been volunteering my network and computing resources to help the <a href=https://www.torproject.org/>Tor Project</a>. I run relay nodes for The Tor Project to help people have clear access to the internet without censorship. I believe that censorship is unjust. I believe full internet privacy is a fundamental right. 
+
+I have been running relay nodes where and when I can. You can see my current active nodes <a href="https://metrics.torproject.org/rs.html#search/contact:c3ypt1c@gmail.com">here</a>. I have been volunteering, on and off, for roughly 4 years. I hope to be able to volunteer for as long as possible in the future. 
