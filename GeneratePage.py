@@ -10,25 +10,9 @@ import html_validate
 import Errors
 from os import remove
 from glob import glob
+import ModuleManager
 
 localLogger = BodyGenerator.HelperFunctions.getLogger()
-
-generateDownContent = True
-
-try:
-    from odf import opendocument, text
-except ModuleNotFoundError:
-    localLogger.error("Please install odfpy. Instructions: https://pypi.org/project/odfpy/")
-    raise ModuleNotFoundError("odf module not found.")
-
-try:
-    from datauri import DataURI
-except ModuleNotFoundError:
-    generateDownContent = False
-    localLogger.warning("Content for download will not be generated.")
-    localLogger.warning("Please install python-datauri. Instructions: https://pypi.org/project/python-datauri/")
-
-localLogger.debug("Loaded imports")
 
 
 class Article:
@@ -46,12 +30,12 @@ class Article:
             self.gen()
 
     def genODT(self):
-        doc = opendocument.load(self.path)
+        doc = ModuleManager.opendocument.load(self.path)
 
         internalArticleText = ""
 
         # Discover and set elements
-        for element in doc.getElementsByType(text.P):
+        for element in doc.getElementsByType(ModuleManager.text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             localLogger.debug(styleType + " for " + str(element))
             if str(element).strip() == "":
@@ -106,7 +90,7 @@ class Article:
             raise Errors.NameTooShort("The name of the file '{}' is too short.".format(self.path))
 
         extension = self.path[-4:]
-        if extension == ".odt":
+        if extension == ".odt" and ModuleManager.generateODF:
             self.dHTML, self.id = self.genODT()
 
         elif extension == ".txt":
@@ -246,7 +230,7 @@ pageContainer = BodyGenerator.Page.Tags.Div(text=minFlexWrapper + BodyGenerator.
 bareHTML += midHTML + BodyGenerator.Page.HTMLEnd
 beefHTML += str(pageContainer) + BodyGenerator.Page.HTMLEnd
 
-if generateDownContent:  # Generate content for download
+if ModuleManager.generateDownContent:  # Generate content for download
     downHTML += str(pageContainer) + "{resourcePackVarScript}" + BodyGenerator.Page.HTMLEnd
 
     localLogger.info("Generating the downloadable version of the website")
@@ -286,7 +270,7 @@ if generateDownContent:  # Generate content for download
     for resource in resourceCache:
         try:
             fileLoc = "Public" + resourceCache[resource]
-            makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+            makeResource = ModuleManager.DataURI.from_file(fileLoc, base64=True).replace("\n", "")
         except FileNotFoundError:
             localLogger.warning("Failed to find resource locally. Embedded by page?")
             localLogger.debug("Writing temporary file")
@@ -295,7 +279,7 @@ if generateDownContent:  # Generate content for download
             with open(fileLoc, "wb") as file:
                 file.write(BodyGenerator.Page.Tags.getHTMLContent(resourceCache[resource]))
 
-            makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
+            makeResource = ModuleManager.DataURI.from_file(fileLoc, base64=True).replace("\n", "")
 
             localLogger.debug("Removing temporary file")
             remove(fileLoc)
@@ -319,7 +303,7 @@ localLogger.info("Finishing building, writing...")
 BodyGenerator.HelperFunctions.Save(BodyGenerator.Generation.MinimumPage, bareHTML)
 BodyGenerator.HelperFunctions.Save(BodyGenerator.Generation.MainPage, beefHTML)
 
-if generateDownContent:
+if ModuleManager.generateDownContent:
     BodyGenerator.HelperFunctions.Save(BodyGenerator.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(BodyGenerator.Generation.buildLocation))
@@ -333,7 +317,7 @@ if Settings.Verification.verify:
         localLogger.info("Skipping verification for: bareHTML")
 
     # Check download page
-    if generateDownContent and Settings.Verification.verifyDownloadPage:
+    if ModuleManager.generateDownContent and Settings.Verification.verifyDownloadPage:
         localLogger.info("Checking downHTML created code:")
         html_validate.validateAndLog(downHTML.encode())
     else:
