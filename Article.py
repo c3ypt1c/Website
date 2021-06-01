@@ -1,5 +1,6 @@
 from glob import glob
 from os import path
+import string
 
 import HelperFunctions
 import Errors
@@ -126,6 +127,8 @@ class Article:
 
 
 class ArticleCluster:
+    acceptableCharacters = string.ascii_letters + " "
+
     def __init__(self, documentPath):
         self.documents = []  # get all the documents
 
@@ -133,7 +136,13 @@ class ArticleCluster:
             localLogger.info("Adding: {}".format(document))
             self.documents.append(Article(document))
 
-        self.sectionName = path.basename(documentPath)
+        # Remove bad characters and set name.
+        self.sectionName = ""
+        for character in path.basename(documentPath):
+            if character in self.acceptableCharacters:
+                self.sectionName += character
+
+        self.sectionName = self.sectionName.strip()
 
         self.id = Tags.generateID(self.sectionName + documentPath)
 

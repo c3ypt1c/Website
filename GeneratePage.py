@@ -143,7 +143,7 @@ class Page:
 # Generate all the file
 documentClusters = []
 
-for File in glob(Article.Settings.Generation.searchPath):
+for File in sorted(glob(Article.Settings.Generation.searchPath)):
     localLogger.debug("Found file at: {}".format(File))
     documentClusters.append(Article.ArticleCluster(File))
 
