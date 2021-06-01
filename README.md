@@ -11,6 +11,9 @@ The program is very simple to use and install. Essentially it's a bunch of scrip
 2. [odfpy](https://pypi.org/project/odfpy/) is needed to read the ODF files. Without this, there is nothing to generate. 
 3. [datauri](https://pypi.org/project/python-datauri/) is needed to generate the packed downloadable version of the website that contains all of the content embedded in itself. This library is optional. Not installing this library will result in `down.html` not generating. 
 
+#### Future Requirements
+1. [md-to-html](https://pypi.org/project/md-to-html/) will be needed to create html content from markdown. 
+
 #### Installing Python packages
 To install the required package, simply invoke pip. You can install the required library using the following commands:
 
