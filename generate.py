@@ -1,12 +1,14 @@
 #!/usr/bin/python
 from time import time
 
+import Settings
+
 start = time()
 
 import BodyGenerator
 import html_validate
 import Errors
-from os import remove as removeFile
+from os import remove
 from glob import glob
 
 localLogger = BodyGenerator.HelperFunctions.getLogger()
@@ -60,7 +62,8 @@ class Article:
                 self.title = str(element)
                 internalArticleText += str(BodyGenerator.Page.Tags.Hx(2, text=element))
             elif styleType == "P3" or styleType == "Subtitle":
-                internalArticleText += str(BodyGenerator.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
+                internalArticleText += str(
+                    BodyGenerator.Page.Tags.Hx(5, text=element, attributes={"class": "subtitle"}))
             else:
                 internalArticleText += str(BodyGenerator.Page.Tags.Paragraph(text=element))
 
@@ -70,7 +73,7 @@ class Article:
                                                   attributes={"id": articleId}
                                                   )
 
-        return (str(article), articleId)
+        return str(article), articleId
 
     def genTXT(self):
         with open(self.path) as f:
@@ -87,12 +90,13 @@ class Article:
         for line in fileData[1:]:
             internalArticleText += str(BodyGenerator.Page.Tags.Paragraph(text=line))
 
-        articleId = BodyGenerator.Page.Tags.generateID(self.title + internalArticleText + str(Article.documentCounter))
+        articleId = BodyGenerator.Page.Tags.generateID(
+            self.title + str(internalArticleText) + str(Article.documentCounter))
         article = BodyGenerator.Page.Tags.Article(text=internalArticleText,
                                                   attributes={"id": articleId}
                                                   )
 
-        return (str(article), articleId)
+        return str(article), articleId
 
     def gen(self):
         if self.generated:
@@ -116,6 +120,7 @@ class Article:
         self.generated = True
 
         return self.dHTML
+
 
 class ArticleCluster:
     def __init__(self, path):
@@ -180,26 +185,28 @@ folderFilePairs = dict()
 for documentCluster in documentClusters:
 
     innerHTML = str(BodyGenerator.Page.Tags.FigureImageCombo(BodyGenerator.Generation.publicFolderImageLocation,
-                                                      "{}".format(documentCluster.sectionName),
+                                                             "{}".format(documentCluster.sectionName),
                                                              attributes=
-                                                      {"class": "figure Folder",
-                                                       "onclick": "OpenFolder(this)",
-                                                       "data-openid": str(documentCluster.id)},
+                                                             {"class": "figure Folder",
+                                                              "onclick": "OpenFolder(this)",
+                                                              "data-openid": str(documentCluster.id)},
                                                              imageAttributes={"class": "figure-img img-fluid"},
-                                                             imageSubtextAttributes={"class": "figure-caption text-center"}
+                                                             imageSubtextAttributes={
+                                                                 "class": "figure-caption text-center"}
                                                              )
                     )
 
     tocItemsHTML = ""
 
     tocItemsHTML += str(BodyGenerator.Page.Tags.FigureImageCombo(BodyGenerator.Generation.publicBackImageLocation,
-                                                          "Go back",
+                                                                 "Go back",
                                                                  attributes=
-                                                          {"class": "figure File Back Closed",
-                                                           "onclick": "ShowAllFolders()"
-                                                           },
+                                                                 {"class": "figure File Back Closed",
+                                                                  "onclick": "ShowAllFolders()"
+                                                                  },
                                                                  imageAttributes={"class": "figure-img img-fluid"},
-                                                                 imageSubtextAttributes={"class": "figure-caption text-center"}
+                                                                 imageSubtextAttributes={
+                                                                     "class": "figure-caption text-center"}
                                                                  )
                         )
 
@@ -207,12 +214,12 @@ for documentCluster in documentClusters:
         tocItemsHTML += str(BodyGenerator.Page.Tags.FigureImageCombo(BodyGenerator.Generation.publicFileImageLocation,
                                                                      documentDC.title,
                                                                      attributes={"class": "figure File Closed",
-                                                                          "data-openid": str(documentDC.id),
-                                                                          "onclick": "OpenSection(this)"
-                                                                          },
+                                                                                 "data-openid": str(documentDC.id),
+                                                                                 "onclick": "OpenSection(this)"
+                                                                                 },
                                                                      imageAttributes={"class": "figure-img img-fluid"},
                                                                      imageSubtextAttributes=
-                                                              {"class": "figure-caption text-center"}
+                                                                     {"class": "figure-caption text-center"}
                                                                      )
                             )
 
@@ -225,7 +232,8 @@ midMain = BodyGenerator.Page.Tags.Main(text=midHTML, attributes={"class": "conta
 
 minFlexWrapper = BodyGenerator.Page.Tags.Div(text=nav + midMain, attributes={"class": "FlexWrapper"})
 
-pageContainer = BodyGenerator.Page.Tags.Div(text=minFlexWrapper + BodyGenerator.Page.FooterTag, attributes={"class": "pageContainer"})
+pageContainer = BodyGenerator.Page.Tags.Div(text=minFlexWrapper + BodyGenerator.Page.FooterTag,
+                                            attributes={"class": "pageContainer"})
 
 bareHTML += midHTML + BodyGenerator.Page.HTMLEnd
 beefHTML += str(pageContainer) + BodyGenerator.Page.HTMLEnd
@@ -282,7 +290,7 @@ if generateDownContent:  # Generate content for download
             makeResource = DataURI.from_file(fileLoc, base64=True).replace("\n", "")
 
             localLogger.debug("Removing temporary file")
-            removeFile(fileLoc)
+            remove(fileLoc)
 
         localLogger.debug("Made URI for '{}' from file in '{}'".format(resourceCache[resource], fileLoc))
         resourceCache[resource] = makeResource
@@ -292,7 +300,8 @@ if generateDownContent:  # Generate content for download
     resourcePackVarLine = BodyGenerator.HelperFunctions.Read("PublicResources/Scripts/resourcePackVarTemplate.js")
     resourcePackVarLine = resourcePackVarLine.replace("{}", str(resourceCache))
 
-    resourcePackVarScript = BodyGenerator.Page.Tags.HTMLElement("script", selfClosing=False, innerHTML=resourcePackVarLine)
+    resourcePackVarScript = BodyGenerator.Page.Tags.HTMLElement("script", selfClosing=False,
+                                                                innerHTML=resourcePackVarLine)
     resourcePackVarScript = str(resourcePackVarScript)
 
     downHTML = downHTML.replace("{resourcePackVarScript}", resourcePackVarScript)
@@ -306,14 +315,27 @@ if generateDownContent:
     BodyGenerator.HelperFunctions.Save(BodyGenerator.Generation.DownloadPage, downHTML)
 
 localLogger.info("Data written to '{}' folder".format(BodyGenerator.Generation.buildLocation))
-localLogger.info("Checking bareHTML created code:")
-html_validate.validateAndLog(bareHTML.encode())
 
-if generateDownContent:
-    localLogger.info("Checking downHTML created code:")
-    html_validate.validateAndLog(downHTML.encode())
+if Settings.Verification.verify:
+    # Check minimum page
+    if Settings.Verification.verifyMinimumPage:
+        localLogger.info("Checking bareHTML created code:")
+        html_validate.validateAndLog(bareHTML.encode())
+    else:
+        localLogger.info("Skipping verification for: bareHTML")
 
-localLogger.info("Checking beefHTML created code:")
-html_validate.validateAndLog(beefHTML.encode())
+    # Check download page
+    if generateDownContent and Settings.Verification.verifyDownloadPage:
+        localLogger.info("Checking downHTML created code:")
+        html_validate.validateAndLog(downHTML.encode())
+    else:
+        localLogger.info("Skipping verification for: downHTML")
+
+    # Check main page
+    if Settings.Verification.verifyMainPage:
+        localLogger.info("Checking beefHTML created code:")
+        html_validate.validateAndLog(beefHTML.encode())
+    else:
+        localLogger.info("Skipping verification for: beefHTML")
 
 localLogger.info("Took: {}s".format(round(time() - start, 2)))

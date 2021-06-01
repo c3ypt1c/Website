@@ -17,3 +17,12 @@ class Generation:
     MainPage = buildLocation + "chicken.html"
     MinimumPage = buildLocation + "bare.html"
     DownloadPage = buildLocation + "down.html"
+
+
+class Verification:  # Replace with flags
+    verify = True
+    verifyMainPage = verify and True
+    verifyMinimumPage = verify and True
+    verifyDownloadPage = verify and True
+
+

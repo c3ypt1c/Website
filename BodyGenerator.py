@@ -1,7 +1,7 @@
 import HelperFunctions
 from os import mkdir, remove, path  # Pycharm is a liar
 import shutil
-from StaticStrings import *
+from Settings import *
 from time import gmtime, strftime
 
 # remove old log
