@@ -54,7 +54,7 @@ class Article:
 
         return str(article), articleId
 
-    def genTXT(self):
+    def __getRawData(self):
         with open(self.path) as f:
             fileData = f.read()
 
@@ -63,11 +63,32 @@ class Article:
         if len(fileData) < 2:
             raise Errors.FileTooShort("The file at '{}' has less than 2 lines".format(self.path))
 
+        return fileData
+
+    def genTXT(self):
+        fileData = self.__getRawData()
+
         self.title = fileData[0]
         internalArticleText = Tags.Hx(2, self.title)
 
         for line in fileData[1:]:
             internalArticleText += str(Tags.Paragraph(text=line))
+
+        articleId = Tags.generateID(
+            self.title + str(internalArticleText) + str(Article.documentCounter))
+        article = Tags.Article(text=internalArticleText,
+                               attributes={"id": articleId}
+                               )
+
+        return str(article), articleId
+
+    def genHTML(self):
+        fileData = self.__getRawData()
+
+        self.title = fileData[0]
+        internalArticleText = Tags.Hx(2, self.title)
+
+        internalArticleText += "".join(fileData[1:])
 
         articleId = Tags.generateID(
             self.title + str(internalArticleText) + str(Article.documentCounter))
@@ -84,15 +105,18 @@ class Article:
         if len(self.path) < len(".xyz"):
             raise Errors.NameTooShort("The name of the file '{}' is too short.".format(self.path))
 
-        extension = self.path[-4:]
+        extension = self.path[-4:]  # TODO: Fix for extensions of different sizes
         if extension == ".odt" and ModuleManager.generateODF:
             self.dHTML, self.id = self.genODT()
 
         elif extension == ".txt":
             self.dHTML, self.id = self.genTXT()
 
+        elif extension == "html" or extension == ".htm":
+            self.dHTML, self.id = self.genHTML()
+
         else:
-            raise Errors.BadExtension("The extension for the file '{}' cannot be processed".format(self.path))
+            raise Errors.BadExtension("The extension ('{}') for the file '{}' cannot be processed".format(extension, self.path))
 
         Article.documentCounter += 1
         localLogger.debug("Generated document number {}".format(Article.documentCounter))
