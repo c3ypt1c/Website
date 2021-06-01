@@ -12,22 +12,22 @@ function HideAllFiles() {
     }
 }
 
-function OpenFolder(id) {
-    if(id.classList.contains("Closed")) {
+function OpenFolder(element) {
+    if(element.classList.contains("Closed")) {
         console.log("Damn, you're fast.")
     }
     else {
         HideAllFolders();
-        id.parentNode.classList.add("Open");
-        let items = id.parentNode.getElementsByTagName("figure");
+        element.parentNode.classList.add("Open");
+        let items = element.parentNode.getElementsByTagName("figure");
 
         for (let item = 0; item < items.length; item++) {
             items[item].classList.remove("Closed");
         }
 
-        id.classList.add("Closed");
+        element.classList.add("Closed");
 
-        let sect = document.getElementById(id.getAttribute("data-openid"));
+        let sect = document.getElementById(element.getAttribute("data-openid"));
         sect.classList.remove("Closed");
     }
 }
