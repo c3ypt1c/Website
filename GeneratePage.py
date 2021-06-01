@@ -11,8 +11,6 @@ import shutil
 from glob import glob
 
 # Project imports
-import Settings
-import html_validate
 import HelperFunctions
 import Tags
 import Article
@@ -20,15 +18,15 @@ import Article
 localLogger = HelperFunctions.getLogger()
 
 # remove old log
-shutil.rmtree(Settings.Logging.loggerFolder)
-mkdir(Settings.Logging.loggerFolder)
+shutil.rmtree(Article.Settings.Logging.loggerFolder)
+mkdir(Article.Settings.Logging.loggerFolder)
 
 localLogger.debug("Rebuilt logging directory")
 
 # Removing paths
 try:
-    localLogger.info("Removing old folder: " + Settings.Generation.buildLocation)
-    shutil.rmtree(Settings.Generation.buildLocation)
+    localLogger.info("Removing old folder: " + Article.Settings.Generation.buildLocation)
+    shutil.rmtree(Article.Settings.Generation.buildLocation)
     localLogger.info("Removed successfully")
 except FileNotFoundError:
     localLogger.warning("Folder not found. Ignore this if this is the first time building.")
@@ -42,11 +40,11 @@ except FileNotFoundError:
 
 # Remaking folders
 localLogger.info("Rebuilding folders")
-mkdir(Settings.Generation.buildLocation)
+mkdir(Article.Settings.Generation.buildLocation)
 
-shutil.copytree("PublicResources", Settings.Generation.buildLocation + "Resources")
+shutil.copytree("PublicResources", Article.Settings.Generation.buildLocation + "Resources")
 
-localLogger.debug("Refreshed Public directory at {}".format(Settings.Generation.buildLocation))
+localLogger.debug("Refreshed Public directory at {}".format(Article.Settings.Generation.buildLocation))
 
 
 class Page:
@@ -116,8 +114,8 @@ class Page:
     bareHeader = header.format("")
 
     # Increment build number
-    buildNumber = 1 + int(HelperFunctions.Read(Settings.Generation.buildNumberLocation))
-    HelperFunctions.Save(Settings.Generation.buildNumberLocation, str(buildNumber))
+    buildNumber = 1 + int(HelperFunctions.Read(Article.Settings.Generation.buildNumberLocation))
+    HelperFunctions.Save(Article.Settings.Generation.buildNumberLocation, str(buildNumber))
 
     localLogger.debug("Current build number: {}".format(buildNumber))
 
@@ -145,7 +143,7 @@ class Page:
 # Generate all the file
 documentClusters = []
 
-for File in glob(Settings.Generation.searchPath):
+for File in glob(Article.Settings.Generation.searchPath):
     localLogger.debug("Found file at: {}".format(File))
     documentClusters.append(Article.ArticleCluster(File))
 
@@ -178,7 +176,7 @@ for documentCluster in documentClusters:
     if documentCluster.openOnLoad:
         documentClusterAttributes["id"] = "openThisOnLoad"
 
-    innerHTML = str(Tags.FigureImageCombo(Settings.Generation.publicFolderImageLocation,
+    innerHTML = str(Tags.FigureImageCombo(Article.Settings.Generation.publicFolderImageLocation,
                                           "{}".format(documentCluster.sectionName),
                                           attributes=documentClusterAttributes,
                                           imageAttributes={"class": "figure-img img-fluid"},
@@ -189,7 +187,7 @@ for documentCluster in documentClusters:
 
     tocItemsHTML = ""
 
-    tocItemsHTML += str(Tags.FigureImageCombo(Settings.Generation.publicBackImageLocation,
+    tocItemsHTML += str(Tags.FigureImageCombo(Article.Settings.Generation.publicBackImageLocation,
                                               "Go back",
                                               attributes=
                                               {"class": "figure File Back Closed",
@@ -202,7 +200,7 @@ for documentCluster in documentClusters:
                         )
 
     for documentDC in documentCluster.documents:
-        tocItemsHTML += str(Tags.FigureImageCombo(Settings.Generation.publicFileImageLocation,
+        tocItemsHTML += str(Tags.FigureImageCombo(Article.Settings.Generation.publicFileImageLocation,
                                                   documentDC.title,
                                                   attributes={"class": "figure File Closed",
                                                               "data-openid": str(documentDC.id),
@@ -299,31 +297,32 @@ if Article.ModuleManager.generateDownContent:  # Generate content for download
 
 localLogger.info("Finishing building, writing...")
 
-HelperFunctions.Save(Settings.Generation.MinimumPage, bareHTML)
-HelperFunctions.Save(Settings.Generation.MainPage, beefHTML)
+HelperFunctions.Save(Article.Settings.Generation.MinimumPage, bareHTML)
+HelperFunctions.Save(Article.Settings.Generation.MainPage, beefHTML)
 
 if Article.ModuleManager.generateDownContent:
-    HelperFunctions.Save(Settings.Generation.DownloadPage, downHTML)
+    HelperFunctions.Save(Article.Settings.Generation.DownloadPage, downHTML)
 
-localLogger.info("Data written to '{}' folder".format(Settings.Generation.buildLocation))
+localLogger.info("Data written to '{}' folder".format(Article.Settings.Generation.buildLocation))
 
-if Settings.Verification.verify:
+if Article.Settings.Verification.verify:
+    import html_validate
     # Check minimum page
-    if Settings.Verification.verifyMinimumPage:
+    if Article.Settings.Verification.verifyMinimumPage:
         localLogger.info("Checking bareHTML created code:")
         html_validate.validateAndLog(bareHTML.encode())
     else:
         localLogger.info("Skipping verification for: bareHTML")
 
     # Check download page
-    if Article.ModuleManager.generateDownContent and Settings.Verification.verifyDownloadPage:
+    if Article.ModuleManager.generateDownContent and Article.Settings.Verification.verifyDownloadPage:
         localLogger.info("Checking downHTML created code:")
         html_validate.validateAndLog(downHTML.encode())
     else:
         localLogger.info("Skipping verification for: downHTML")
 
     # Check main page
-    if Settings.Verification.verifyMainPage:
+    if Article.Settings.Verification.verifyMainPage:
         localLogger.info("Checking beefHTML created code:")
         html_validate.validateAndLog(beefHTML.encode())
     else:
