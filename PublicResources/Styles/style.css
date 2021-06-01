@@ -238,6 +238,10 @@ footer p {
 	background: linear-gradient(-90deg, rgb(72, 253, 45) 0%, rgba(54,225,116,0.5032213569021359) 80%, rgba(34,193,195,0) 100%);
 }
 
+* {
+	scroll-behavior: smooth;
+}
+
 @media (max-width: 40em) {
 	.FlexWrapper {
 		display: block;
@@ -301,3 +305,14 @@ footer p {
 		transition: unset !important;
 	}
 }
+
+@media screen and (prefers-reduced-motion: reduce) {
+	* {
+		scroll-behavior: auto;
+	}
+
+	.Hacker {
+		animation-play-state: paused;
+	}
+}
+

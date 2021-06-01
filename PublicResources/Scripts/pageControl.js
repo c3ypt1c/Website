@@ -60,7 +60,7 @@ function fadeOutColor(id) {
 
 function OpenSection(id) {
     let sect = document.getElementById(id.getAttribute("data-openid"));
-    sect.scrollIntoView();
+    sect.scrollIntoView({behavior: "smooth", });
     sect.style = "background: #4a2300";
     setTimeout(function () {
          fadeOutColor(sect)
