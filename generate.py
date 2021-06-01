@@ -1,9 +1,11 @@
+#!/usr/bin/python
 from time import time
 
 start = time()
 
 import BodyGenerator
 import html_validate
+import Errors
 from os import remove as removeFile
 from glob import glob
 
@@ -32,8 +34,6 @@ class Article:
 
     def __init__(self, path, genContent=False):
         self.path = path
-        self.doc = None
-        self.elements = {}
         self.dHTML = None
         self.generated = False
         self.id = None
@@ -43,16 +43,13 @@ class Article:
         if genContent:
             self.gen()
 
-    def gen(self):
-        if self.generated:
-            return self.dHTML
+    def genODT(self):
+        doc = opendocument.load(self.path)
 
         internalArticleText = ""
 
-        self.doc = opendocument.load(self.path)
-
         # Discover and set elements
-        for element in self.doc.getElementsByType(text.P):
+        for element in doc.getElementsByType(text.P):
             styleType = element.attributes[('urn:oasis:names:tc:opendocument:xmlns:text:1.0', 'style-name')]
             localLogger.debug(styleType + " for " + str(element))
             if str(element).strip() == "":
@@ -67,22 +64,58 @@ class Article:
             else:
                 internalArticleText += str(BodyGenerator.Page.Tags.Paragraph(text=element))
 
-        Article.documentCounter += 1
-
-        self.id = BodyGenerator.Page.Tags.generateID(self.title + internalArticleText + str(Article.documentCounter))
+        articleId = BodyGenerator.Page.Tags.generateID(self.title + internalArticleText + str(Article.documentCounter))
 
         article = BodyGenerator.Page.Tags.Article(text=internalArticleText,
-                                                  attributes={"id": self.id}
+                                                  attributes={"id": articleId}
                                                   )
 
+        return (str(article), articleId)
+
+    def genTXT(self):
+        with open(self.path) as f:
+            fileData = f.read()
+
+        fileData = [x.strip() for x in fileData.splitlines()]
+
+        if len(fileData) < 2:
+            raise Errors.FileTooShort("The file at '{}' has less than 2 lines".format(self.path))
+
+        self.title = fileData[0]
+        internalArticleText = BodyGenerator.Page.Tags.Hx(2, self.title)
+
+        for line in fileData[1:]:
+            internalArticleText += str(BodyGenerator.Page.Tags.Paragraph(text=line))
+
+        articleId = BodyGenerator.Page.Tags.generateID(self.title + internalArticleText + str(Article.documentCounter))
+        article = BodyGenerator.Page.Tags.Article(text=internalArticleText,
+                                                  attributes={"id": articleId}
+                                                  )
+
+        return (str(article), articleId)
+
+    def gen(self):
+        if self.generated:
+            return self.dHTML
+
+        if len(self.path) < len(".xyz"):
+            raise Errors.NameTooShort("The name of the file '{}' is too short.".format(self.path))
+
+        extension = self.path[-4:]
+        if extension == ".odt":
+            self.dHTML, self.id = self.genODT()
+
+        elif extension == ".txt":
+            self.dHTML, self.id = self.genTXT()
+
+        else:
+            raise Errors.BadExtension("The extension for the file '{}' cannot be processed".format(self.path))
+
+        Article.documentCounter += 1
         localLogger.debug("Generated document number {}".format(Article.documentCounter))
-
-        self.dHTML = str(article)
-
         self.generated = True
 
         return self.dHTML
-
 
 class ArticleCluster:
     def __init__(self, path):
