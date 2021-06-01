@@ -162,6 +162,7 @@ Figure.Closed {
 
 Figure.Closed figcaption {
 	height: 0;
+	font-size: 0rem;
 }
 
 section.Closed {
@@ -290,5 +291,9 @@ footer p {
 
 	.FlexWrapper main.container {
 		margin: auto;
+	}
+
+	.figure-caption {
+		transition: unset !important;
 	}
 }
