@@ -130,7 +130,14 @@ class ArticleCluster:
             self.documents.append(Article(document))
 
         self.sectionName = BodyGenerator.path.basename(path)
+
         self.id = BodyGenerator.Page.Tags.generateID(self.sectionName + path)
+
+        if self.sectionName == Settings.Behaviour.autoOpenSection:
+            self.openOnLoad = True
+            localLogger.info("Found '{}' section and set id accordingly".format(Settings.Behaviour.autoOpenSection))
+        else:
+            self.openOnLoad = False
 
     def collectHTML(self):
         dHTML = ""
@@ -184,12 +191,13 @@ folderFilePairs = dict()
 
 for documentCluster in documentClusters:
 
+    documentClusterAttributes = {"class": "figure Folder", "onclick": "OpenFolder(this)","data-openid": str(documentCluster.id)}
+    if documentCluster.openOnLoad:
+        documentClusterAttributes["id"] = "openThisOnLoad"
+
     innerHTML = str(BodyGenerator.Page.Tags.FigureImageCombo(BodyGenerator.Generation.publicFolderImageLocation,
                                                              "{}".format(documentCluster.sectionName),
-                                                             attributes=
-                                                             {"class": "figure Folder",
-                                                              "onclick": "OpenFolder(this)",
-                                                              "data-openid": str(documentCluster.id)},
+                                                             attributes=documentClusterAttributes,
                                                              imageAttributes={"class": "figure-img img-fluid"},
                                                              imageSubtextAttributes={
                                                                  "class": "figure-caption text-center"}

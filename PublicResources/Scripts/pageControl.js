@@ -68,7 +68,12 @@ function OpenSection(id) {
 }
 
 function GoToWelcome() {
-
+    try {
+        document.getElementById("openThisOnLoad").click();
+        console.log("clicked on openThisOnLoad");
+    } catch (e) {
+        console.log("couldn't click on openThisOnLoad");
+    }
 }
 
 console.log("pageControl.js loaded");

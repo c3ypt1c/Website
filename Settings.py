@@ -20,9 +20,11 @@ class Generation:
 
 
 class Verification:  # Replace with flags
-    verify = True
+    verify = False
     verifyMainPage = verify and True
     verifyMinimumPage = verify and True
     verifyDownloadPage = verify and True
 
 
+class Behaviour:
+    autoOpenSection = "Welcome"  # What section to automatically open upon load

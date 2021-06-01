@@ -7,11 +7,11 @@ function onLoadCompressed() {
 // Normal Onload
 function onLoad() {
     console.log("running post-load");
-    GoToWelcome();
 
     MakeGoUp();
     GoUpThePage();
     document.addEventListener('scroll', GoUpHandler);
+    GoToWelcome();
 }
 
 let goUpContainer;
