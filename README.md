@@ -22,4 +22,4 @@ To install the optional packages, simply invoke `pip`. You can install the optio
 `pip install odfpy python-datauri`
 
 ## Copyrights
- - [Ion Icons](https://github.com/ionic-team/ionicons) for their filled icons
+ - [Ion Icons](https://github.com/ionic-team/ionicons) for their filled icons. [Copyright License](https://github.com/ionic-team/ionicons/blob/master/LICENSE).
