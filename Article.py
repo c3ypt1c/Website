@@ -26,7 +26,11 @@ class Article:
             self.gen()
 
     def genODT(self):
-        doc = ModuleManager.opendocument.load(self.path)
+        try:
+            doc = ModuleManager.opendocument.load(self.path)
+        except:
+            localLogger.warning("odt extention is not persent")
+            return None, None
 
         internalArticleText = ""
 
@@ -119,9 +123,13 @@ class Article:
         else:
             raise Errors.BadExtension("The extension ('{}') for the file '{}' cannot be processed".format(extension, self.path))
 
-        Article.documentCounter += 1
-        localLogger.debug("Generated document number {}".format(Article.documentCounter))
-        self.generated = True
+        if self.dHTML is None:
+            localLogger.debug("Skipped generating document number {}".format(Article.documentCounter))    
+
+        else:
+            Article.documentCounter += 1
+            localLogger.debug("Generated document number {}".format(Article.documentCounter))
+            self.generated = True
 
         return self.dHTML
 
@@ -156,11 +164,16 @@ class ArticleCluster:
         dHTML = ""
         dHTMLCount = 0
         for document in self.documents:
-            dHTML += document.gen()
-            if dHTMLCount < len(self.documents) - 1:
+            generatedHTML = document.gen()
+
+            if generatedHTML is None:
+                continue
+
+            if dHTMLCount > 0: 
                 dHTML += str(Tags.Div(
                     attributes={"class": "separator"}))
 
+            dHTML += generatedHTML
             dHTMLCount += 1
 
         h1 = Tags.Hx(1, text=self.sectionName)
