@@ -12,7 +12,7 @@ class Generation:
     publicFileImageLocation = "Resources/PageImages/document-text-sharp.svg"
     publicBackImageLocation = "Resources/PageImages/arrow-back-sharp.svg"
 
-    buildLocation = "/srv/http/WebsitePublic/"
+    buildLocation = "/var/www/localhost/htdocs/"
 
     MainPage = buildLocation + "chicken.html"
     MinimumPage = buildLocation + "bare.html"
