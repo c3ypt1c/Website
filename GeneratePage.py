@@ -18,11 +18,7 @@ import Article
 localLogger = HelperFunctions.getLogger()
 
 # remove old log
-try:
-    shutil.rmtree(Article.Settings.Logging.loggerFolder)
-except:
-    localLogger.warning("Failed to removed old logger folder: '{}'".format(Article.Settings.Logging.loggerFolder))
-
+shutil.rmtree(Article.Settings.Logging.loggerFolder)
 mkdir(Article.Settings.Logging.loggerFolder)
 
 localLogger.debug("Rebuilt logging directory")

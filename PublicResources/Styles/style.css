@@ -243,6 +243,33 @@ footer p {
 	scroll-behavior: smooth;
 }
 
+.gallery {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	overflow-y: auto;
+	background: linear-gradient(180deg, rgba(0,0,0,0) 6%, rgba(0,94,35,0.7469188358937324) 12%, rgba(0,0,0,0) 70%);
+}
+
+.gallery img {
+	cursor: pointer;
+	display: inline-block;
+	margin: auto;
+	width: auto;
+	max-height: 22vh;
+}
+
+.preview {
+	display: flex;
+	height: 45rem;
+	background: radial-gradient(circle, rgba(0,94,35,0.7469188358937324) 0%, rgba(0,0,0,0) 60%);
+}
+
+.preview img {
+	margin: auto;
+	max-height: 45rem;
+}
+
 @media (max-width: 40em) {
 	.FlexWrapper {
 		display: block;

@@ -1,9 +1,10 @@
-
 class NameTooShort(Exception):
-	pass
+    pass
+
 
 class FileTooShort(Exception):
-	pass
+    pass
+
 
 class BadExtension(Exception):
-	pass
+    pass
