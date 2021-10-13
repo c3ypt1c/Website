@@ -1,0 +1,7 @@
+About Me
+
+I am an aspiring full stack security/programmer. I self host and write my own programs for my own needs. I love Linux. I host my own websites and make my own content. My dream is to work at a company where I'll be able to grow and learn as a person and a programmer. 
+
+I'm recently finished studying <a href=https://www.leedsbeckett.ac.uk/courses/cyber-security-digital-forensics-bsc/>Cyber Forensics and Security at Leeds Beckett University</a>. Check out some of my projects I have done at university, they’re the best example I have of my growth. <a>Graduate Picture</a>
+
+I have written a lot of code in the past, most of it is under the <a href=https://unlicense.org/>Unlicense Licence</a>, <a href="https://opensource.org/licenses/MIT">MIT licence</a>, or other “free” licenses because I want to make the world a better place with my code. You can see my code and some of my projects on <a href=https://github.com/c3ypt1c>GitHub</a>. There are some of the examples of my code and projects on this website. 
