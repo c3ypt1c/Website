@@ -23,18 +23,21 @@ Drawing Program
 <h5>Gallery</h5>
 <p>Here are some drawings: (tap/hover to preview)</p>
 <div class="gallery">
-    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Face.png">
-    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Hue.png">
-    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Squares.png">
-    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/HuePattern.png">
+    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Face.png" alt="A picture of a face drawn by the program">
+    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Hue.png" alt="Program generated picture showing hue. Blue, red, yellow, green at the corners starting with top right and following clockwise." id="gallery_first">
+    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Squares.png" alt="Image of centered squares and circles of various sizes in uniform step, with a completely black outline, layered on top of each other, showing high - but not total - transparency of the shape fill, which compounds and becomes more visible towards in most layered shapes.">
+    <img onmouseover="updateTo(this)" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/HuePattern.png" alt="Program generated picture showing hue. Blue, red, yellow, green at the corners starting with top right and following clockwise. There is a pattern that emerges where there are pixels that are missing, giving a dithering effect.">
 </div>
 
-<div class="preview mx-auto"><img class="mx-auto d-block" id="img" src="Resources/ProjectFiles/AdvancedSoftwareEngineering/Hue.png"></div>
+<div class="preview mx-auto"><img class="mx-auto d-block" id="img" alt="Empty Image"></div>
 
 <script>
     function updateTo(src) {
         document.getElementById("img").src = src.src;
+        document.getElementById("img").alt = src.alt
     }
+
+    updateTo(document.getElementById("gallery_first"))
 </script>
 
 <h5>Documentation</h5>
