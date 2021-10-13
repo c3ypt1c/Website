@@ -11,3 +11,6 @@
    - Embed latest `green_line.svg` file.
  - Bugs:
    - Content floats up sometimes. Need clock or something. Definitely need a better way to control the animations other than just disabling them in mobile or just letting css handle everything.
+
+### Content:
+ - Add Blender art content
