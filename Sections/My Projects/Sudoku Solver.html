@@ -1,0 +1,34 @@
+Sudoku Solver
+<h5>Intro</h5>
+<p>I have made a Sudoku solver. It is available on GitHub and you can see the <a href=https://c3ypt1c.github.io/jsBacktrackingSudokuSolver>demo here</a>.</p>
+
+<h5>Algorithms</h5>
+<p>The brute-force <a href=https://en.wikipedia.org/wiki/Sudoku_solving_algorithms#Backtracking>Backtracking</a> algorithm is the major solving algorithm in this Sudoku solver with a supporting algorithm that helps remove <a href=http://www.angusj.com/sudoku/hints.php>singles</a> from the graph.</p>
+
+<h5>Singles Elimination</h5>
+
+<p>Consider this following graph:</p>
+<img alt="An unsolved Sudoku grid" src="Resources/FileImages/Sudoku/EasySudoku.png" class="d-block mx-auto">
+
+<p>This Sudoku puzzle can be solved completely without the Backtracking algorithm. This is because there are squares where there is only one possible answer. For example, in the top-left grid, the top empty cell has to be 9 because no other possibilities exist. We know this because the possibilities are eliminated by examining the row, column and the square of the cell in any order.</p>
+
+<img alt="A subsection (square) of the unfinished Sudoku grid" src="Resources/FileImages/Sudoku/EasySudokuSquare.png" class="d-block mx-auto">
+
+<p>By starting with numbers from 1 to 9 inclusive, we can remove the numbers present in the current square of the cell (1, 2, 3, 6, 8) and are left with numbers 4, 5, 7 and 9.</p>
+
+<img alt="A subsection (row) of the unfinished Sudoku grid" src="Resources/FileImages/Sudoku/EasySudokuRow.png" class="d-block mx-auto">
+
+<p>We can now look at the row of the cell and remove numbers 4 and 5 from our list of numbers. This leaves us wit the numbers 7 and 9.</p>
+
+<img alt="A subsection (column) of the unfinished Sudoku grid" src="Resources/FileImages/Sudoku/EasySudokuColumn.png" class="d-block mx-auto">
+
+<p>By looking at the column of the cell, we can remove the 7 from our list of numbers, leaving us with only 9. Since 9 is the only number, we can be certain that only 9 should go into the cell so we write 9 into the cell. We can keep iterating this process until all the squares are filled in:</p>
+
+<img alt="Solved Sudoku grid" src="Resources/FileImages/Sudoku/EasySudokuSolved.png" class="d-block mx-auto">
+
+<p>However, this doesn’t guarantee that there will be a solution. This is where you have to use backtracking. The following example cannot be solved using the previous method but can be solved using Backtracking:</p>
+
+<img alt="Hard, unsolved puzzle gird" src="Resources/FileImages/Sudoku/HardSudoku.png" class="d-block mx-auto">
+
+<p>This is the solution to the above using <a href=https://c3ypt1c.github.io/jsBacktrackingSudokuSolver>my Sudoku solver</a>:</p>
+<img alt="Hard, unsolved puzzle gird" src="Resources/FileImages/Sudoku/HardSudokuSolved.png" class="d-block mx-auto">
