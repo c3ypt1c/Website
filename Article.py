@@ -146,9 +146,9 @@ class ArticleCluster:
 
         self.id = Tags.generateID(self.sectionName + documentPath)
 
-        if self.sectionName == Settings.Behaviour.autoOpenSection:
+        if self.sectionName == Settings.Behavior.autoOpenSection:
             self.openOnLoad = True
-            localLogger.info("Found '{}' section and set id accordingly".format(Settings.Behaviour.autoOpenSection))
+            localLogger.info("Found '{}' section and set id accordingly".format(Settings.Behavior.autoOpenSection))
         else:
             self.openOnLoad = False
 

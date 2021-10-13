@@ -26,5 +26,5 @@ class Verification:  # Replace with flags
     verifyDownloadPage = verify and True
 
 
-class Behaviour:
+class Behavior:
     autoOpenSection = "Welcome"  # What section to automatically open upon load
