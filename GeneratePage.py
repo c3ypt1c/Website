@@ -269,7 +269,7 @@ if Article.ModuleManager.generateDownContent:  # Generate content for download
             fileLoc = "Public" + resourceCache[resource]
             makeResource = Article.ModuleManager.DataURI.from_file(fileLoc, base64=True).replace("\n", "")
         except FileNotFoundError:
-            localLogger.warning("Failed to find resource locally. Embedded by page?")
+            localLogger.warning("Failed to find resource '{}' locally. Embedded by page?".format(resource))
             localLogger.debug("Writing temporary file")
 
             fileLoc = "file.tmp"
